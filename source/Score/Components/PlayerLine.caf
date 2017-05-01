@@ -1,0 +1,80 @@
+import &ArtSuite
+
+class PlayerLine extends PointerActionsMixin FluxComponent
+
+  @stateFields
+    offset: 0
+    baseAmount: 0
+    currentAmount: 0
+
+  dragMove: (event, delta) ->
+    amount = (base = delta.x / 100) ** 2
+    if amount > .05
+      @models.players.setAdd @props.name, @currentAmount = @baseAmount - if base < 0 then -1 * amount else amount
+
+  dragEnd: ->
+    @baseAmount = @currentAmount
+
+  render: ->
+    {name, score, toAdd} = @props
+    toAdd = toAdd? && toAdd | 0
+
+    color = switch
+    when toAdd > 0 then #7f7
+    when toAdd < 0 then #f77
+
+    amountStr = if toAdd != false
+      if toAdd == 0 then "0"
+      else
+        if toAdd < 0 then "- " else "+ "
+        + Math.abs toAdd
+
+    Element
+      size: ww: 1, h: 50
+      location: x:@dragOffset.x
+      animators: if @dragOffset.x == 0 then location: d: .25, f: :easeOutQuad
+      on: @dragHandlers
+
+      Element
+        childrenLayout: :row
+        childrenAlignment: :centerLeft
+        padding: h: 10
+
+        TextElement
+          &StyleProps.playerText
+          size: ww: 1, hch: 1
+          text: name
+          margin: 10
+
+        TextElement
+          &StyleProps.playerText
+          size: cs: 1
+          color: color
+          text:
+            score | 0
+            + toAdd | 0
+          padding: 10
+
+      Element
+        inFlow: false
+        location: xw: 1
+        RectangleElement color: color || #aaa, animators: :color
+
+        TextElement
+          &StyleProps.playerText
+          size: cs: 1
+          text: amountStr
+          padding: 10
+
+      Element
+        inFlow: false
+        axis: :topRight
+        childrenLayout: :row
+        childrenAlignment: :right
+        RectangleElement inFlow: false, color: color || #aaa, animators: :color
+
+        TextElement
+          &StyleProps.playerText
+          size: cs: 1
+          text: amountStr
+          padding: 10

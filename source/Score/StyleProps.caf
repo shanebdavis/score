@@ -1,0 +1,15 @@
+import &ArtSuite
+
+class StyleProps extends HotStyleProps
+  @mediumText:
+    fontFamily: :copperplate
+    fontSize:   16
+
+  @titleText:
+    fontFamily: :copperplate
+    fontSize:   64
+    padding:    16
+
+  @playerText:
+    fontFamily: :copperplate
+    fontSize:   32

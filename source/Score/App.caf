@@ -1,0 +1,11 @@
+import &ArtSuite
+
+class App extends Component
+
+  render: ->
+    CanvasElement
+      RectangleElement
+        color: :white
+
+      &Components/MainScreen()
+

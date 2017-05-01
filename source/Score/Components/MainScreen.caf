@@ -1,0 +1,12 @@
+import &ArtSuite
+
+class MainScreen extends FluxComponent
+
+  render: ->
+    Element
+      childrenLayout: :column
+      TextElement
+        &StyleProps.titleText
+        text: :Score!
+
+      &PlayerList()

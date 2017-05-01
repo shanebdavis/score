@@ -1,0 +1,13 @@
+import &ArtSuite
+
+PlayerLine = &PlayerLine
+
+class PlayerList extends FluxComponent
+  @subscriptions :players.currentPlayers
+
+  render: ->
+    Element
+      childrenLayout: :column
+
+      array player from @currentPlayers.sort (a, b) -> b.score - a.score
+        PlayerLine player, key: player.name
