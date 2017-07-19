@@ -1,0 +1,9 @@
+import &StandardImport
+
+class ScoreHistory extends IndexedDbPipeline
+  @indexes
+    scoreHistoryByGamePlayerId: "gamePlayerId/createdAt"
+
+  @addDatabaseFilters
+    gamePlayer: :link
+    added:      :number

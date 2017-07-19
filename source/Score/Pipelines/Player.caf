@@ -1,0 +1,6 @@
+import &StandardImport
+
+class Player extends IndexedDbPipeline
+  @addDatabaseFilters
+    name: "required trimmedString"
+    preferredColor: "trimmedString"

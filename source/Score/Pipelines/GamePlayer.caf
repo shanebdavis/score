@@ -1,0 +1,25 @@
+import &StandardImport
+
+class GamePlayer extends IndexedDbPipeline
+  @indexes
+    gamePlayersByGameId:    :gameId/createdAt
+    gamePlayersByPlayerId:  :playerId/createdAt
+
+  @addDatabaseFilters
+    player: :link
+    game:   :link
+    color:  :trimmedString
+    score:  :number
+
+  @handler
+    updateScore: (request) ->
+
+  @afterEvent
+    create: scoreHistory: updateScoreAfter = (response) ->
+      response.subrequest
+        :gamePlayer
+        :updateScore
+        key: gamePlayer.id
+
+    update: scoreHistory: updateScoreAfter
+    delete: scoreHistory: updateScoreAfter
