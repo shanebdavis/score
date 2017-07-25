@@ -1,0 +1,28 @@
+import &ArtSuite
+
+class NavState extends ApplicationState
+  @stateFields
+    navStack: [] pageName: :Games
+    backPossible: false
+    stackPosition: 0
+
+  @setter
+    navStack: (navStack) ->
+      @setState {}
+        backPossible: navStack.length > 1
+        navStack
+
+  pushPage: (page) ->
+    sp = @stackPosition + 1
+    stack = @navStack.slice 0, sp
+    stack.push page
+    @navStack = stack
+    @stackPosition = sp
+
+  popPage: ->
+    @stackPosition = max 0, @stackPosition - 1
+
+  pushGameTypesPage:  (props) -> @pushPage {} pageName: :GameTypes, props
+  pushNewGamePage:    (props) -> @pushPage {} pageName: :NewGame, props
+  pushPlayersPage:    (props) -> @pushPage {} pageName: :Players, props
+  pushGamePage:       (props) -> @pushPage {} pageName: :Game, props

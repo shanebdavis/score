@@ -6,6 +6,8 @@ module.exports
 .addModules
   App:        require './App'       
   Main:       require './Main'      
+  Palette:    require './Palette'   
   StyleProps: require './StyleProps'
 require './Components'
 require './Models'
+require './Pipelines'

@@ -1,11 +1,16 @@
-import &ArtSuite
+import &ArtSuite, &Components
 
-class App extends Component
+class App extends FluxComponent
+  @subscriptions :navState.navStack
 
   render: ->
+    log :RENDER_APP
+    {pageName, props} = peek @navStack
+    log {pageName, props}
     CanvasElement
       RectangleElement
-        color: :white
+        color: &Palette.background
 
-      &Components/MainScreen()
-
+      Element
+        padding: 10
+        Pages[pageName]? props

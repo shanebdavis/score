@@ -1,8 +1,12 @@
 import &StandardImport
 
 class Game extends IndexedDbPipeline
+  dbName: "ArtSuiteScoreApp"
+  @indexes
+    gameByGameTypeId: :gameTypeId/createdAt
+
   @addDatabaseFilters
-    name: "required trimmedString"
+    gameType: "required link include"
 
   @query
     allGames:

@@ -1,0 +1,33 @@
+import &ArtSuite, &Widgets
+
+class PlayerList extends FluxComponent
+
+  render: ->
+    {players, title, selectAction} = @props
+    Element
+      animators: size: toFrom: ww: 1, h: 0
+      clip: true
+      size: ww: 1, hch: 1
+      childrenLayout: :column
+      margin: 10
+
+      RectangleElement color: &Palette.textBg, inFlow: false radius: 10
+      Element
+        padding: 10
+        size: ww: 1, hch: 1
+        childrenLayout: :column
+        TextElement
+          &StyleProps.playerText
+          color: &Palette.text.secondary
+          text: title || :Players
+          padding: top: 10, bottom: 20
+
+        Element
+          padding: 10
+          size: ww: 1, hch: 1
+          childrenLayout: :column
+          RectangleElement color: :black inFlow: false, padding: -10
+          array player from players
+            Button
+              text: player.name
+              action: -> selectAction? player

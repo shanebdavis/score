@@ -1,0 +1,94 @@
+import &ArtSuite, &Widgets
+
+class Players extends FluxComponent
+  @subscriptions :allPlayers.players
+
+  @stateFields
+    showNewPlayer: false
+    newPlayerName: null
+
+  @propFields
+    hidePlayersById: {}
+
+  addPlayer: ->
+    if present @newPlayerName
+      @models.player.create
+        data: name: @newPlayerName
+      .then @clearShowNewPlayer
+
+  select: (player) ->
+    if @props.selectAction?
+      @props.selectAction player
+      @models.navState.popPage()
+
+  preprocessProps: (props) ->
+    {hidePlayers} = props
+    if hidePlayers
+      each player in hidePlayers into hidePlayersById = {}
+        hidePlayersById[player.id] = player
+      merge props, {} hidePlayersById
+    else
+      props
+
+  render: ->
+    {hidePlayersById} = @props
+    {titleText, mediumText, inputText, playerText} = &StyleProps
+    &Page
+      title: "" Players
+
+      if @showNewPlayer
+        []
+          Element
+            size: ww: 1, h: 50
+            childrenLayout: :row
+            Element
+              margin: 10
+              size: hh: 1, wcw: 1
+              RectangleElement
+                inFlow: false
+                color: &Palette.textBg
+
+              TextElement
+                mediumText
+                padding: h: 10
+                size: wcw: 1, hh: 1
+                align: :centerLeft
+                color: &Palette.text.secondary
+                text: "name:"
+
+            Element
+              RectangleElement
+                inFlow: false
+                color: &Palette.textBg
+              TextInputElement
+                padding: h: 10
+                inputText
+                color: &Palette.text.primary
+                size: ww:1, h: 50
+                placeholder: "player name"
+                on: valueChanged: ({props}) -> @newPlayerName = props.value
+
+          Element
+            margin: 10
+            size: ww: 1 hch: 1
+            childrenLayout: :row
+
+            Button
+              text:   "Add"
+              action: @addPlayer
+              childrenAlignment: .5
+            Button
+              text:   "Cancel"
+              action: @toggleShowNewPlayer
+              childrenAlignment: .5
+
+      else
+        []
+          @players && array player in @players
+            Button
+              text: player.name
+              action: -> @select player
+              disabled: !!hidePlayersById[player.id]
+          Button
+            text: "add player"
+            action: @toggleShowNewPlayer

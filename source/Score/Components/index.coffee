@@ -4,6 +4,8 @@
 module.exports = require './namespace'
 module.exports
 .addModules
-  MainScreen: require './MainScreen'
   PlayerLine: require './PlayerLine'
   PlayerList: require './PlayerList'
+require './Pages'
+require './Partials'
+require './Widgets'

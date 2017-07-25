@@ -1,2 +1,13 @@
+import &ArtSuite
 &Models
-&ArtSuite.initArtSuiteApp MainComponent: &App
+&Pipelines
+log :MAIN
+&ArtSuite.initArtSuiteApp
+  title: :Score
+  prepare: Promise.then ->
+    log :PREPARE
+    &ArtEry.sendInitializeRequestToAllPipelines()
+    .then ->
+      log INITIALIZED: array pipeline from pipelines
+        pipeline.pipelineName
+  MainComponent: &App

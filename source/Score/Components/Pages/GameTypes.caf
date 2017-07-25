@@ -1,0 +1,79 @@
+import &ArtSuite, &Widgets
+
+class GameTypes extends FluxComponent
+  @subscriptions :allGameTypes.gameTypes
+
+  @stateFields
+    showNewGameType: false
+    newGameTypeName: null
+
+  addGameType: ->
+    if present @newGameTypeName
+      @models.gameType.create
+        data: name: @newGameTypeName
+      .then @clearShowNewGameType
+
+  select: (gameType) ->
+    if @props.selectAction?
+      @props.selectAction gameType
+      @models.navState.popPage()
+
+  render: ->
+    {titleText, mediumText, inputText, playerText} = &StyleProps
+    &Page
+      title: "" Game Types
+
+      if @showNewGameType
+        []
+          Element
+            size: ww: 1, h: 50
+            childrenLayout: :row
+            Element
+              margin: 10
+              size: hh: 1, wcw: 1
+              RectangleElement
+                inFlow: false
+                color: &Palette.textBg
+              TextElement
+                mediumText
+                padding: h: 10
+                size: wcw: 1, hh: 1
+                align: :centerLeft
+                color: &Palette.text.secondary
+                text: "name:"
+
+            Element
+              RectangleElement
+                inFlow: false
+                color: &Palette.textBg
+              TextInputElement
+                padding: h: 10
+                inputText
+                color: &Palette.text.primary
+                size: ww:1, h: 50
+                placeholder: "new game-type name"
+                on: valueChanged: ({props}) -> @newGameTypeName = props.value
+
+          Element
+            margin: 10
+            size: ww: 1 hch: 1
+            childrenLayout: :row
+
+            Button
+              text:   "Add"
+              action: @addGameType
+              childrenAlignment: .5
+            Button
+              text:   "Cancel"
+              action: @toggleShowNewGameType
+              childrenAlignment: .5
+
+      else
+        []
+          @gameTypes && array gameType in @gameTypes
+            Button
+              text: gameType.name
+              action: -> @select gameType
+          Button
+            text: "Add New Game-Type"
+            action: @toggleShowNewGameType

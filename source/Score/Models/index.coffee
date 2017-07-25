@@ -5,4 +5,6 @@ module.exports = require './namespace'
 module.exports
 .addModules
   IndexedDbPipeline: require './IndexedDbPipeline'
+  NavState:          require './NavState'         
+  NewGameState:      require './NewGameState'     
   Players:           require './Players'          

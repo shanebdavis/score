@@ -1,0 +1,13 @@
+import &StandardImport
+
+class GameType extends IndexedDbPipeline
+  @addDatabaseFilters
+    name: "required trimmedString"
+
+  @query
+    allGameTypes:
+      query: (request) ->
+        request.subrequest :gameType :getAll
+        .then (games) -> games.sort (a, b) -> compare a.name, b.name
+
+      dataToKeyString: -> "all"

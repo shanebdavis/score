@@ -1,0 +1,19 @@
+import &ArtSuite
+
+class TextBox extends Component
+  render: ->
+    {text, big} = @props
+    Element
+      size: ww: 1 hch: 1
+      margin: 10
+
+      RectangleElement
+        inFlow: false
+        color: &Palette.textBg
+
+      TextElement
+        if big then &StyleProps.titleText else &StyleProps.playerText
+        size: ww: 1 hch: 1
+        padding: 10
+        text: text
+        color: &Palette.text.secondary

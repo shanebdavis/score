@@ -1,0 +1,18 @@
+import &ArtSuite
+
+class NewGameState extends ApplicationState
+  @stateFields
+    gameType: null
+    players: []
+
+  @setter
+    players: (players) ->
+      @setState
+        players: players
+        playersById: each player in players into out = {}
+          out[player.id] = player
+
+  addPlayer:    (player) -> @players = arrayWith @players, player
+  removePlayer: (player) -> @players = array p from @players when player.id != p.id
+
+  createGame: ->

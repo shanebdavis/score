@@ -1,0 +1,13 @@
+import &ArtSuite
+
+class StyleProps extends HotStyleProps
+  @background: :#000
+  @text:
+    primary:    #fffa
+    secondary:  #fff9
+    disabled:   #fff5
+
+  @buttonBg:      #005ecb
+  @buttonHoverBg: #0dd
+  @buttonDownBg:  #0bb
+  @textBg:        #07f

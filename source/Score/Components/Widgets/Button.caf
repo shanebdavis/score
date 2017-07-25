@@ -1,0 +1,34 @@
+import &ArtSuite
+
+class Button extends PointerActionsMixin FluxComponent
+
+  render: ->
+    {text, size, childrenAlignment, disabled} = @props
+    {buttonBg, buttonHoverBg, buttonDownBg} = &Palette
+    Element
+      animators: size: toFrom: ww: 1, h: 0
+      clip: true
+      size: size || ww: 1, hch: 1
+      if disabled
+        opacity: .75
+      else
+        cursor: :pointer
+        on: @buttonHandlers
+
+      margin: 10
+      childrenLayout: :row
+      childrenAlignment: childrenAlignment ? :centerLeft
+      RectangleElement
+        inFlow: false
+        color: color = if @pointerIsDown then buttonDownBg else if @hover then buttonHoverBg else buttonBg
+        animators: :color :shadow
+        shadow:
+          offset: 0
+          blur: 20
+          color: color
+
+      TextElement
+        &StyleProps.buttonText
+        padding: 10
+        text: text
+        color: &Palette.text.primary

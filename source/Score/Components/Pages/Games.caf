@@ -1,0 +1,15 @@
+import &ArtSuite, &Widgets
+
+class Games extends FluxComponent
+  @subscriptions :allGames.games
+
+  render: ->
+    &Page
+      title: :Games
+
+      array game in @games
+        TextElement
+          &StyleProps.titleText
+          text: game.gameType.name
+
+      Button text: "New Game" action: @models.navState.pushNewGamePage

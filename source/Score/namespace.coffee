@@ -4,4 +4,5 @@
 module.exports = (require 'neptune-namespaces').addNamespace 'Score', class Score extends Neptune.PackageNamespace
   @version: require('../../package.json').version
 require './Components/namespace';
-require './Models/namespace'
+require './Models/namespace';
+require './Pipelines/namespace'
