@@ -9,9 +9,12 @@ class PlayerList extends FluxComponent
       clip: true
       size: ww: 1, hch: 1
       childrenLayout: :column
-      margin: 10
+      childrenMargins: 10
 
-      RectangleElement color: &Palette.textBg, inFlow: false radius: 10
+      drawOrder:
+        rectangle: radius: 10
+        &Palette.textBg
+
       Element
         padding: 10
         size: ww: 1, hch: 1
@@ -26,7 +29,9 @@ class PlayerList extends FluxComponent
           padding: 10
           size: ww: 1, hch: 1
           childrenLayout: :column
-          RectangleElement color: :black inFlow: false, padding: -10
+          childrenMargins: 10
+          drawOrder: :black
+
           array player from players
             Button
               text: player.name

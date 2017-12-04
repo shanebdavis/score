@@ -4,6 +4,7 @@ class NewGameState extends ApplicationState
   @stateFields
     gameType: null
     players: []
+    playersById: {}
 
   @setter
     players: (players) ->

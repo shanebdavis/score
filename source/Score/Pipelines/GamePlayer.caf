@@ -19,7 +19,7 @@ class GamePlayer extends IndexedDbPipeline
       response.subrequest
         :gamePlayer
         :updateScore
-        key: gamePlayer.id
+        key: response.data.gamePlayer.id
 
     update: scoreHistory: updateScoreAfter
     delete: scoreHistory: updateScoreAfter

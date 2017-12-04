@@ -1,16 +1,38 @@
 import &ArtSuite, &Components
 
-class App extends FluxComponent
-  @subscriptions :navState.navStack
+class PageWrapper extends FluxComponent
 
   render: ->
-    log :RENDER_APP
-    {pageName, props} = peek @navStack
-    log {pageName, props}
-    CanvasElement
-      RectangleElement
-        color: &Palette.background
+    {pageName, props, axis} = @props
+    log renderPageWrapper: {pageName, axis}
+    Element
+      axis: axis
+      animators:
+        axis:
+          from: x: -1
+      padding: 10
+      Pages[pageName]? props
 
-      Element
-        padding: 10
-        Pages[pageName]? props
+class App extends FluxComponent
+  @subscriptions :navState.navState
+
+  render: ->
+    {navStack, stackPosition} = @navState
+    log {navStack, stackPosition}
+    first = navStack[stackPosition - 1]
+    current = navStack[stackPosition]
+    last = navStack[stackPosition + 1]
+
+    CanvasElement
+      drawOrder: &Palette.background
+
+      array page, i in navStack
+        PageWrapper
+          page
+          axis: x:
+            if i < stackPosition
+              1
+            else if i == stackPosition
+              0
+            else
+              -1

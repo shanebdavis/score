@@ -7,7 +7,7 @@ class Button extends PointerActionsMixin FluxComponent
     {buttonBg, buttonHoverBg, buttonDownBg} = &Palette
     Element
       animators: size: toFrom: ww: 1, h: 0
-      clip: true
+      # clip: true
       size: size || ww: 1, hch: 1
       if disabled
         opacity: .75
@@ -15,17 +15,18 @@ class Button extends PointerActionsMixin FluxComponent
         cursor: :pointer
         on: @buttonHandlers
 
-      margin: 10
       childrenLayout: :row
       childrenAlignment: childrenAlignment ? :centerLeft
-      RectangleElement
-        inFlow: false
-        color: color = if @pointerIsDown then buttonDownBg else if @hover then buttonHoverBg else buttonBg
-        animators: :color :shadow
-        shadow:
-          offset: 0
-          blur: 20
-          color: color
+      drawOrder:
+        rectangle: radius: 5
+        fill:
+          color: color = if @pointerIsDown then buttonDownBg else if @hover then buttonHoverBg else buttonBg
+          shadow:
+            offset: 0
+            blur: if @pointerIsDown || @hover then 20 else 0
+            color: color
+        "clip"
+      animators: :drawOrder
 
       TextElement
         &StyleProps.buttonText

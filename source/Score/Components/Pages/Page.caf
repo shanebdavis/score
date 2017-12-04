@@ -7,9 +7,10 @@ class Page extends FluxComponent
     {titleText} = &StyleProps
     Element
       childrenLayout: :column
+      childrenMargins: 10
       Element
         size: ww:1, hch: 1
-        margin: 10
+        childrenMargins: 10
         childrenLayout: :row
 
         @backPossible && Button
@@ -19,9 +20,7 @@ class Page extends FluxComponent
 
         Element
           size: ww: 1 hch: 1
-          RectangleElement
-            inFlow: false
-            color: &Palette.textBg
+          drawOrder: &Palette.textBg
 
           TextElement
             titleText
