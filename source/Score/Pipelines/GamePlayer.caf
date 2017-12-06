@@ -6,10 +6,15 @@ class GamePlayer extends IndexedDbPipeline
     gamePlayersByPlayerId:  :playerId/createdAt
 
   @addDatabaseFilters
-    player: :link
+    player: "" link include
     game:   :link
-    color:  :trimmedString
-    score:  :number
+    color:
+      fieldType:  :color
+      default:    :#f00
+
+    score:
+      fieldType:  :number
+      default:    0
 
   @handler
     updateScore: (request) ->

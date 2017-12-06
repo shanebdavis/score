@@ -3,13 +3,18 @@ import &ArtSuite, &Widgets
 class Games extends FluxComponent
   @subscriptions :allGames.games
 
+  showGame: (event, {game}) ->
+    @models.navState.pushGamePage {game}
+
   render: ->
     &Page
       title: :Games
 
       array game in @games
-        TextElement
-          &StyleProps.titleText
+        Button
+          key: game.id
           text: game.gameType.name
+          game: game
+          action: @showGame
 
-      Button text: "New Game" action: @models.navState.pushNewGamePage
+      Button text: "New Game" action: @models.navState.pushNewGamePage, secondary: true

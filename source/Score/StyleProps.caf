@@ -9,7 +9,7 @@ class StyleProps extends HotStyleProps
     merge
       @mediumText
       fontSize:   32
-      padding:    16
+      # padding:    v: 8
 
   @playerText:
     merge

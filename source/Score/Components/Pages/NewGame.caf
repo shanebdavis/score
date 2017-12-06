@@ -6,6 +6,12 @@ class NewGame extends FluxComponent
     :newGameState.newGameState
     :allPlayers.allPlayers
 
+  createGame: ->
+    @models.newGameState.createGame()
+    .then (game) ->
+      @models.navState.popPage()
+      @models.navState.pushGamePage {game}
+
   render: ->
     log {@newGameState}
     {gameType, players, playersById} = @newGameState
@@ -35,8 +41,5 @@ class NewGame extends FluxComponent
         key: :otherPlayers
         text:   "" start game
         childrenAlignment: :centerCenter
-        action: ->
-          @models.newGameState.createGame()
-          .then (game) ->
-            @models.navState.popPage()
-            @models.navState.pushGamePage game
+        action: @createGame
+        secondary: true

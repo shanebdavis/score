@@ -3,8 +3,9 @@ import &ArtSuite
 class Button extends PointerActionsMixin FluxComponent
 
   render: ->
-    {text, size, childrenAlignment, disabled} = @props
+    {text, size, childrenAlignment, disabled, secondary} = @props
     {buttonBg, buttonHoverBg, buttonDownBg} = &Palette
+    color = if @pointerIsDown then buttonDownBg else if @hover then buttonHoverBg else buttonBg
     Element
       animators: size: toFrom: ww: 1, h: 0
       # clip: true
@@ -19,12 +20,21 @@ class Button extends PointerActionsMixin FluxComponent
       childrenAlignment: childrenAlignment ? :centerLeft
       drawOrder:
         rectangle: radius: 5
-        fill:
-          color: color = if @pointerIsDown then buttonDownBg else if @hover then buttonHoverBg else buttonBg
-          shadow:
-            offset: 0
-            blur: if @pointerIsDown || @hover then 20 else 0
+        if secondary
+          outline: {}
+            color
+            lineWidth: 2
+            shadow:
+              offset: 0
+              blur: if @pointerIsDown || @hover then 20 else 0
+              color: color
+        else
+          fill:
             color: color
+            shadow:
+              offset: 0
+              blur: if @pointerIsDown || @hover then 20 else 0
+              color: color
         "clip"
       animators: :drawOrder
 
@@ -32,4 +42,10 @@ class Button extends PointerActionsMixin FluxComponent
         &StyleProps.buttonText
         padding: 10
         text: text
-        color: &Palette.text.primary
+        color: if secondary then color else &Palette.text.primary
+        if secondary
+          animators: :color :shadow
+          shadow:
+            offset: 0
+            blur: if @pointerIsDown || @hover then 20 else 0
+            color: color

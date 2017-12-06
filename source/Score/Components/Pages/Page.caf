@@ -7,26 +7,27 @@ class Page extends FluxComponent
     {titleText} = &StyleProps
     Element
       childrenLayout: :column
-      childrenMargins: 10
       Element
         size: ww:1, hch: 1
         childrenMargins: 10
         childrenLayout: :row
+        padding: 10
+
+        drawOrder: &Palette.textBg
 
         @backPossible && Button
           size: hh: 1, wcw: 1
           text: :◀︎︎
           action: @models.navState.popPage
 
-        Element
+        TextElement
+          titleText
           size: ww: 1 hch: 1
-          drawOrder: &Palette.textBg
+          text: @props.title
+          color: &Palette.text.secondary
 
-          TextElement
-            titleText
-            size: ww: 1 hch: 1
-            margin: 10
-            text: @props.title
-            color: &Palette.text.secondary
-
-      @props.children
+      Element
+        padding: 10
+        childrenLayout: :column
+        childrenMargins: 10
+        @props.children

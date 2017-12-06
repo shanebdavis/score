@@ -4,6 +4,7 @@
 module.exports = require './namespace'
 module.exports
 .addModules
+  Game:      require './Game'     
   Games:     require './Games'    
   GameTypes: require './GameTypes'
   NewGame:   require './NewGame'  

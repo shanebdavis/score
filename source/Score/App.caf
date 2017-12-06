@@ -10,7 +10,6 @@ class PageWrapper extends FluxComponent
       animators:
         axis:
           from: x: -1
-      padding: 10
       Pages[pageName]? props
 
 class App extends FluxComponent

@@ -17,3 +17,8 @@ class NewGameState extends ApplicationState
   removePlayer: (player) -> @players = array p from @players when player.id != p.id
 
   createGame: ->
+    @models.game.create data: {@gameType}
+    .then (game) ->
+      Promise.all array player in @players
+        @models.gamePlayer.create data: {game, player}
+      .then -> game
