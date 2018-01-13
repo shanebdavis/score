@@ -1,0 +1,6 @@
+import &ArtSuite
+
+class LayoutProps extends HotStyleProps
+  @gridSize: 10
+  @buttonSize: 45
+  @lineHeight: @gridSize * 5

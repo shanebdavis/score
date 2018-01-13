@@ -1,0 +1,37 @@
+import &ArtSuite
+
+class TextStyles extends HotStyleProps
+  fontRatio = 1.25
+  @mediumText:
+    fontFamily: "" Lucida Console, Monaco5, monospace
+    fontSize:   24
+
+  @largeText: merge
+    @mediumText
+    fontSize:   @mediumText.fontSize * fontRatio
+
+  @xLargeText: merge
+    @largeText
+    fontSize:   @largeText.fontSize * fontRatio
+
+  @titleText:
+    merge
+      @mediumText
+      fontSize:   32
+      # padding:    v: 8
+
+  @playerText:
+    merge
+      @mediumText
+      fontSize:   32
+
+  @buttonText:
+    merge
+      @mediumText
+      fontSize:   24
+
+  @inputText:
+    merge
+      @mediumText
+      fontSize:   32
+

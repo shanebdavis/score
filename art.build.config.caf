@@ -6,4 +6,6 @@ webpack:
   common: {}
 
   # each target's individual properties
-  targets: Client: {}
+  targets:
+    ScoreMore: {}
+    JustScore: {}

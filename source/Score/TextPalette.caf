@@ -1,0 +1,12 @@
+import &ArtSuite
+
+class TextPalette extends HotStyleProps
+  @white:
+    primary:    #fffe
+    secondary:  #fff9
+    disabled:   #fff5
+
+  @black:
+    primary:    #000e
+    secondary:  #0009
+    disabled:   #0005

@@ -1,0 +1,9 @@
+&ArtSuite.merge
+  &ArtSuite
+  &ArtEryIndexedDb
+  &Widgets
+  {}
+    LayoutProps:  &LayoutProps
+    StyleProps:   &StyleProps
+    TextPalette:  &TextPalette
+    TextStyles:   &TextStyles

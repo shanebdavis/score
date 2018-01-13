@@ -1,0 +1,139 @@
+import &StandardImport
+{createGestureRecognizer} = Events.GestureRecognizer
+
+class AdderLine extends FluxComponent
+
+  @stateFields
+    xOffset:  0
+    amount: 0
+    tracking: false
+
+  cancel: (e) ->
+    @amount =
+    @xOffset = 0
+    @tracking = false
+
+  begin: (e) -> @tracking = true
+  move:  (e) ->
+    @amount = (-e.totalParentDelta.x / 10) | 0
+    @xOffset = e.totalParentDelta.x
+
+  end:   (e) ->
+    @xOffset = 0
+    @tracking = false
+
+  getInitialState: ->
+    handlers:
+      createGestureRecognizer
+        horizontal: {@begin, @move, @end, @cancel}
+
+  render: ->
+    {lineHeight, gridSize} = LayoutProps
+    {amount} = @
+    Element
+      size: ww:1, hch: 1
+
+      Element
+        on: @state.handlers
+        size: ww:1, hch: 1
+        animators: !@tracking && location: true
+        location: x: @xOffset
+
+        @props.children
+
+        if amount != 0
+          Element
+            padding: h: gridSize / 2
+            size: w: gridSize * 10, h: lineHeight
+            if amount > 0
+              location: xw: 1 x: gridSize
+            else
+              location: x: -gridSize
+              axis: "topRight"
+            draw:
+              rectangle: radius: gridSize / 2
+              #777
+
+            TextElement
+              TextStyles.xLargeText
+              align: y: .5
+              size: ww:1, h: lineHeight
+              align: if amount < 0 then :centerRight else :centerLeft
+              text: "#{if amount > 0 then :+}#{amount}"
+              color: TextPalette.white.primary
+
+class PlayerScore extends FluxComponent
+  render: ->
+    {gridSize, lineHeight} = LayoutProps
+    {name, score, color} = @props
+    Element
+      size: hch:1
+
+      childrenLayout:   :row
+      childrenMargins:  gridSize
+
+      Element
+        size: w: gridSize * 10, h: lineHeight
+        padding: gridSize
+        draw:
+          rectangle: radius: gridSize / 2
+          color
+
+        TextElement
+          TextStyles.xLargeText
+          size:   ps: 1
+          align:  "bottomRight"
+          text:   "#{score}"
+          color:  TextPalette.black.primary
+
+      Element
+        padding: gridSize
+
+        TextElement
+          TextStyles.mediumText
+          align:  "bottomLeft"
+          text:   name
+          color:  TextPalette.white.primary
+
+      ButtonWrapper
+        size: wcw:1, hh:1
+        action: => @props.add name, 1
+        TextElement
+          TextStyles.mediumText
+          size:     cs: 1
+          padding:  h: gridSize
+          text:     "+"
+          color:    TextPalette.white.primary
+
+      ButtonWrapper
+        size: wcw:1, hh:1
+        action: => @props.add name, -1
+        TextElement
+          size: cs: 1
+          padding: h: gridSize
+          TextStyles.mediumText
+          text: "-"
+          color: TextPalette.white.primary
+
+class Home extends FluxComponent
+
+  @stateFields
+    players:
+      name: :Alice    score: 100  color: #ff0
+      name: :Bill     score: 200  color: #f00
+
+  add: (name, amount) ->
+    @players = object player from @players
+      if player.name == name
+        merge player, score: player.score + amount
+      else
+        player
+
+  render: ->
+    {gridSize} = LayoutProps
+    Element
+      padding:          gridSize
+      childrenLayout:   :column
+      childrenMargins:  gridSize
+      array player from @players
+        AdderLine PlayerScore player, {} @add

@@ -1,0 +1,9 @@
+import &ArtSuite
+
+class App extends FluxComponent
+
+  render: ->
+    CanvasElement
+      draw: &Palette.background
+
+      &Components/Home()

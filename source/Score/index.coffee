@@ -4,10 +4,10 @@
 module.exports = require './namespace'
 module.exports
 .addModules
-  App:        require './App'       
-  Main:       require './Main'      
-  Palette:    require './Palette'   
-  StyleProps: require './StyleProps'
-require './Components'
-require './Models'
-require './Pipelines'
+  LayoutProps:    require './LayoutProps'   
+  Palette:        require './Palette'       
+  StandardImport: require './StandardImport'
+  StyleProps:     require './StyleProps'    
+  TextPalette:    require './TextPalette'   
+  TextStyles:     require './TextStyles'    
+require './Widgets'

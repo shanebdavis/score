@@ -1,7 +1,6 @@
 import &ArtSuite
 &Models
 &Pipelines
-log :MAIN
 &ArtSuite.initArtSuiteApp
   title: :Score
   prepare: Promise.then ->

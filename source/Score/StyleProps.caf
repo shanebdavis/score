@@ -1,28 +1,4 @@
 import &ArtSuite
 
 class StyleProps extends HotStyleProps
-  @mediumText:
-    fontFamily: "" Lucida Console, Monaco5, monospace
-    fontSize:   24
-
-  @titleText:
-    merge
-      @mediumText
-      fontSize:   32
-      # padding:    v: 8
-
-  @playerText:
-    merge
-      @mediumText
-      fontSize:   32
-
-  @buttonText:
-    merge
-      @mediumText
-      fontSize:   24
-
-  @inputText:
-    merge
-      @mediumText
-      fontSize:   32
-
+  mergeInto @, &TextStyles
