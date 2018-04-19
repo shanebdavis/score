@@ -1,22 +1,62 @@
-import &StandardImport
+import Math, &StandardImport
 {createGestureRecognizer} = Events.GestureRecognizer
 
-class AdderLine extends FluxComponent
+class PushbackEvent
+
+  constructor: (@defaultAction)->
+    @currentValidActionNumber = 0
+
+  replace: (promise, action = @defaultAction) ->
+    actionNumber = @currentValidActionNumber += 1
+    log "replace"
+    promise.then ->
+      log "replace triggered"
+      if @currentValidActionNumber == actionNumber
+        log "replace triggered - action!"
+        action()
+
+  cancel: -> @currentValidActionNumber++
+
+class ScoreEditWidget extends FluxComponent
+
+  constructor: ->
+    super
+    @startAmount = 0
+    @applyEvent = null
 
   @stateFields
     xOffset:  0
-    amount: 0
+    amount:   null
     tracking: false
 
   cancel: (e) ->
-    @amount =
+    @amount = null
     @xOffset = 0
     @tracking = false
+    @applyEvent?.cancel()
+    @applyEvent = null
 
-  begin: (e) -> @tracking = true
+  begin: (e) ->
+    log begin: @startAmount = @amount ||= 0
+    @applyEvent = new PushbackEvent ->
+      log Apply: @amount
+      @cancel()
+
+    @tracking = true
+
   move:  (e) ->
-    @amount = (-e.totalParentDelta.x / 10) | 0
-    @xOffset = e.totalParentDelta.x
+    absDeltaX = abs deltaX = @xOffset = e.totalParentDelta.x
+    sign = deltaX / absDeltaX
+    log {absDeltaX}
+    absDeltaX += 15 if absDeltaX > 0
+
+    addAmount =
+      sign
+      * Math.pow absDeltaX / 20, 1.5
+      | 0
+    log "move: #{@startAmount} + #{addAmount}"
+    @applyEvent.replace timeout 3
+    @amount = @startAmount + addAmount
 
   end:   (e) ->
     @xOffset = 0
@@ -30,97 +70,126 @@ class AdderLine extends FluxComponent
   render: ->
     {lineHeight, gridSize} = LayoutProps
     {amount} = @
-    Element
-      size: ww:1, hch: 1
+    log {amount}
 
+    Element
       Element
         on: @state.handlers
-        size: ww:1, hch: 1
         animators: !@tracking && location: true
-        location: x: @xOffset
+        location: x: @xOffset / 4
 
-        @props.children
-
-        if amount != 0
+        Element
+          childrenLayout: :row
           Element
-            padding: h: gridSize / 2
-            size: w: gridSize * 10, h: lineHeight
-            if amount > 0
-              location: xw: 1 x: gridSize
-            else
-              location: x: -gridSize
-              axis: "topRight"
-            draw:
-              rectangle: radius: gridSize / 2
-              #777
+            draw: #eee
+            size: lineHeight
 
-            TextElement
-              TextStyles.xLargeText
-              align: y: .5
-              size: ww:1, h: lineHeight
-              align: if amount < 0 then :centerRight else :centerLeft
-              text: "#{if amount > 0 then :+}#{amount}"
-              color: TextPalette.white.primary
+          TextElement
+            TextStyles.xLargeText
+            size:   hh: 1
+            align:  .5
+            text:   "#{@props.score}"
+            color:  TextPalette.black.primary
+
+          Element
+            draw: #eee
+            size: lineHeight
+
+        # @props.children
+
+      if amount?
+        Element
+          location: xw: .5
+          axis: x: .5
+          size: cs: 1
+          padding: v: 5, h: 10
+          childrenLayout: :row
+          childrenMargins: gridSize
+
+      #     padding: h: gridSize / 2
+      #     size: w: gridSize * 10, hh: 1
+      #     if amount > 0
+      #       location: xw: 1 x: gridSize
+      #     else
+      #       location: x: -gridSize
+      #       axis: "topRight"
+          draw:
+            rectangle: radius: 100
+            #777
+
+          TextElement
+            size: cs: 1
+            TextStyles.smallText
+            align: y: .5
+            text: "#{if amount > 0 then :+}#{amount}"
+            color: TextPalette.white.primary
+
+          TextElement
+            size: cs: 1
+            TextStyles.smallText
+            align: y: .5
+            text: "X"
+            on: pointerClick: @cancel
+            color: TextPalette.white.secondary
+
 
 class PlayerScore extends FluxComponent
   render: ->
     {gridSize, lineHeight} = LayoutProps
     {name, score, color} = @props
     Element
-      size: hch:1
+      size: ww:1, h: lineHeight
 
       childrenLayout:   :row
       childrenMargins:  gridSize
+      childrenAlignment: "bottom"
 
       Element
-        size: w: gridSize * 10, h: lineHeight
-        padding: gridSize
-        draw:
-          rectangle: radius: gridSize / 2
-          color
+        childrenLayout:   :row
+        childrenMargins:  gridSize
+        childrenAlignment: "centerLeft"
+
+        Element
+          draw:
+            rectangle: radius: 5
+            fill: color
+            outline: TextPalette.black.secondary
+          size: hh:1 wh:1
 
         TextElement
-          TextStyles.xLargeText
-          size:   ps: 1
-          align:  "bottomRight"
-          text:   "#{score}"
+          TextStyles.largeText
+          size:   cs: 1
+          text:   name
           color:  TextPalette.black.primary
 
-      Element
-        padding: gridSize
+      ScoreEditWidget {score}
 
-        TextElement
-          TextStyles.mediumText
-          align:  "bottomLeft"
-          text:   name
-          color:  TextPalette.white.primary
+      # ButtonWrapper
+      #   size: wcw:1, hh:1
+      #   action: => @props.add name, 1
+      #   TextElement
+      #     TextStyles.mediumText
+      #     size:     cs: 1
+      #     padding:  h: gridSize
+      #     text:     "+"
+      #     color:    TextPalette.white.primary
 
-      ButtonWrapper
-        size: wcw:1, hh:1
-        action: => @props.add name, 1
-        TextElement
-          TextStyles.mediumText
-          size:     cs: 1
-          padding:  h: gridSize
-          text:     "+"
-          color:    TextPalette.white.primary
-
-      ButtonWrapper
-        size: wcw:1, hh:1
-        action: => @props.add name, -1
-        TextElement
-          size: cs: 1
-          padding: h: gridSize
-          TextStyles.mediumText
-          text: "-"
-          color: TextPalette.white.primary
+      # ButtonWrapper
+      #   size: wcw:1, hh:1
+      #   action: => @props.add name, -1
+      #   TextElement
+      #     size: cs: 1
+      #     padding: h: gridSize
+      #     TextStyles.mediumText
+      #     text: "-"
+      #     color: TextPalette.white.primary
 
 class Home extends FluxComponent
 
   @stateFields
     players:
-      name: :Alice    score: 100  color: #ff0
-      name: :Bill     score: 200  color: #f00
+      name: :Alice    score: 100  color: #ff4
+      name: :Bill     score: 200  color: #f44
 
   add: (name, amount) ->
     @players = object player from @players
@@ -136,4 +205,4 @@ class Home extends FluxComponent
       childrenLayout:   :column
       childrenMargins:  gridSize
       array player from @players
-        AdderLine PlayerScore player, {} @add
+        PlayerScore player, {} @add

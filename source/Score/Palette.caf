@@ -1,7 +1,7 @@
 import &ArtSuite
 
 class StyleProps extends HotStyleProps
-  @background: :#000
+  @background: :#fff
   @text:
     primary:    #fffa
     secondary:  #fff9

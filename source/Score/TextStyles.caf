@@ -3,8 +3,12 @@ import &ArtSuite
 class TextStyles extends HotStyleProps
   fontRatio = 1.25
   @mediumText:
-    fontFamily: "" Lucida Console, Monaco5, monospace
+    fontFamily: "" sans-serif
     fontSize:   24
+
+  @smallText:
+    @mediumText
+    fontSize:   @mediumText.fontSize / fontRatio
 
   @largeText: merge
     @mediumText

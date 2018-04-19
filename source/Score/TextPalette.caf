@@ -7,6 +7,6 @@ class TextPalette extends HotStyleProps
     disabled:   #fff5
 
   @black:
-    primary:    #000e
+    primary:    #000b
     secondary:  #0009
     disabled:   #0005
