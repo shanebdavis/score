@@ -1,0 +1,29 @@
+import &StandardImport
+
+class ConfirmDelete extends FluxComponent
+  @subscriptions :currentGame.players
+
+  @propFields
+    playerId: null
+
+  @getter
+    player: -> @players[@playerId]
+    name:   -> @player?.name
+    color:  -> @player?.color
+
+  render: ->
+    {gridSize, margin} = Style
+    {color} = @
+
+    Element
+      childrenLayout: :column
+
+      Element
+        axis: .5
+        location: :centerCenter
+        size: h: gridSize * 2, w: gridSize * 6
+        childrenLayout: :flow
+        &Button {} color, width: 6, text: "x #{@name} ?"
+        &Button {} color, width: 3, text: :<, action: @models.navState.clearConfirmDeletePlayerId
+        &Button {} color, width: 3, text: :✔︎, action: @models.currentGame.confirmDeletePlayer
+        Element()

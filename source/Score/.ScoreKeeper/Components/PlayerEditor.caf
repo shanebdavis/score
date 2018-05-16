@@ -1,0 +1,39 @@
+import &StandardImport
+
+class PlayerEditor extends FluxComponent
+  @subscriptions :currentGame.players
+
+  @propFields
+    playerId: null
+
+  @getter
+    player: -> @players[@playerId]
+    name:   -> @player.name
+    color:  -> @player.color
+
+  deletePlayer: -> @models.navState.confirmDeletePlayerId = @playerId
+
+  @setter
+    color: (color) -> @models.currentGame.updatePlayer @playerId, log {} color
+    name:  (name)  -> @models.currentGame.updatePlayer @playerId, log {} name
+
+  done: ->
+    @models.navState.clearEditPlayerId()
+
+  render: ->
+    {color} = @
+
+    Element
+      childrenLayout: :column
+
+      &ColorPicker action: @setColor
+      Element
+        size: h: gridSize
+        childrenLayout: :row
+        Element()
+        &Button {} color, width: 2,                            text: :x, action: @deletePlayer
+        &Button {} color, width: 4, delay: animationDelay * 2, text: @name + "|"
+        &Button {} color, width: 2, delay: animationDelay * 6, text: :✔︎, action: @done
+        Element()
+
+      &Keyboard {} color, value: @name, valueChanged: @setName

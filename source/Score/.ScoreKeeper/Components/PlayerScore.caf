@@ -1,0 +1,30 @@
+import &StandardImport
+
+class PlayerScore extends FluxComponent
+
+  @propFields
+    player: null
+
+  edit: -> @models.navState.editPlayerId = @player.id
+
+  add: -> @models.currentGame.add @player.id
+  sub: -> @models.currentGame.add @player.id, -1
+
+  render: ->
+    {gridSize, margin} = Style
+    {name, score, color} = @player
+    Element
+      size: h: gridSize
+      childrenLayout: :row
+      &Button
+        color: color
+        width: 4
+        action: @edit
+        name
+
+      &Button
+        {color, width: 2}
+        "#{score}"
+
+      &Button {color, action: @sub}, "-"
+      &Button {color, action: @add}, "+"

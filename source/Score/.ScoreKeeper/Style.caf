@@ -1,0 +1,26 @@
+import &ArtSuite
+class Style extends HotStyleProps
+  @colors:
+    #fe4544
+    #fe8922
+    #fdff33
+    #65ff35
+    #66ffcc
+    #3089ff
+    #a854ff
+    #fc89ff
+    #a7a8a9
+    #f5f6f7
+
+  @white: rgbColor :white
+
+  @margin: 10
+  @padding: 5
+  @gridSize: 175
+  @animationDelay: .025
+
+  @heavyText:
+    fontWeight: :bold
+    fontFamily: "" Arial Black
+    fontSize:   100
+    align:      .5

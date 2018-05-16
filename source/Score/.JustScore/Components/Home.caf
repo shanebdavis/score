@@ -6,10 +6,10 @@ class PushbackEvent
   constructor: (@defaultAction)->
     @currentValidActionNumber = 0
 
-  replace: (promise, action = @defaultAction) ->
+  replace: (p, action = @defaultAction) ->
     actionNumber = @currentValidActionNumber += 1
     log "replace"
-    promise.then ->
+    p.then ->
       log "replace triggered"
       if @currentValidActionNumber == actionNumber
         log "replace triggered - action!"

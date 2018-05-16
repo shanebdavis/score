@@ -1,0 +1,51 @@
+import &StandardImport
+
+class Button extends PointerActionsMixin FluxComponent
+
+  action: ({target}, b)->
+    @props.action? null, @props
+    el = target
+    while el && el.key != :appRoot
+      el = el.parent
+    @models.navState.buttonAnimationArea = target.getElementToElementMatrix(el).transformBoundingRect target.paddedArea
+
+  render: ->
+    {color = #444, text, delay, width = 1, height = 1} = @props
+    {padding, gridSize} = Style
+
+    Element
+      on: @buttonHandlers
+      cursor: :pointer
+      padding: padding
+
+      size:
+        h: height * gridSize
+        w: width * gridSize
+
+      Element
+        axis: .5
+        location: :centerCenter
+        animateOnCreation: true
+        animators:
+          scale:
+            toFrom: 0
+            delay: delay
+          draw: {}
+            duration: .5
+            delay
+
+        draw:
+          :padded
+          color
+
+        @hover && Element
+          animators: opacity: toFrom: 0
+          draw: #fff7
+
+        TextElement
+          size: :childrenSize
+          location: :centerCenter
+          axis: .5
+          scale: (ps, cs) -> min 1, ps.minRatio cs
+          Style.heavyText
+          text && upperCase text

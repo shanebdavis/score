@@ -1,0 +1,33 @@
+import &StandardImport
+
+class Keyboard extends FluxComponent
+
+  @propFields
+    value: ""
+
+  backspace: ->
+    @props.valueChanged @value.slice 0, @value.length - 1
+
+  typeAction: (__,  props) ->
+    {text}=props
+    @props.valueChanged @value + text
+
+  render: ->
+    {gridSize, margin} = Style
+    {color = #fe8922} = @props
+    delay = animationDelay
+    Element
+      childrenLayout: :flow
+      size: h: gridSize * 3
+
+      array c, i in :qwertyuiop with &Button {} color, delay: delay * i,        text: c, action: @typeAction
+      array c, i in :asdfghjkl_ with &Button {} color, delay: delay * (i + 1),  text: c, action: @typeAction
+      array c, i in :zxcvbnm    with &Button {} color, delay: delay * (i + 2),  text: c, action: @typeAction
+
+      &Button {} color, width: 2, delay: delay * 9, text: " ", action: @typeAction
+      Element
+        inFlow: false
+        location: ps: 1
+        axis: 1
+        size: :childrenSize
+        &Button {} color, height: 2 text: :⬅︎, delay: delay * 11, action: @backspace

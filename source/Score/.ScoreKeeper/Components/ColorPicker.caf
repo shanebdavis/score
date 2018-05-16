@@ -1,0 +1,15 @@
+import &StandardImport
+
+class ColorPicker extends FluxComponent
+
+  render: ->
+    Element
+      size: :parentWidthChildrenHeight
+      childrenLayout: :flow
+      childrenAlignment: :center
+      array color, i in Style.colors
+        &Button {}
+          width: 2
+          delay: animationDelay * ((i%5)+(i/5|0))
+          color
+          action: -> @props.action? color

@@ -1,0 +1,7 @@
+import &ArtSuite
+&Models
+
+&ArtSuite.initArtSuiteApp
+  title: :ScoreKeeper
+  MainComponent: class Main extends Component
+    render: -> CanvasElement &Components/App()

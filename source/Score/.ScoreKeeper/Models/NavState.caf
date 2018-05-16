@@ -1,0 +1,11 @@
+import &StandardImport
+
+class NavState extends ApplicationState
+  @stateFields
+    buttonAnimationArea: null
+    confirmDeletePlayerId: null
+    editPlayerId: null
+
+  playerDeleted: (playerId) ->
+    @editPlayerId = null if @editPlayerId = playerId
+    @confirmDeletePlayerId = null if @confirmDeletePlayerId = playerId

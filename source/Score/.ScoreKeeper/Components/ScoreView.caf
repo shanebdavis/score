@@ -1,0 +1,33 @@
+import &StandardImport
+
+class ScoreView extends FluxComponent
+  @subscriptions :currentGame.players
+
+  newPlayer: ->
+    @models.navState.editPlayerId = @models.currentGame.newPlayer()
+
+  render: ->
+    {gridSize, margin} = Style
+
+    Element
+      childrenLayout: :row
+
+      Element
+        size: w: gridSize
+        childrenLayout: :column
+        &Button
+          height: 3
+          action: @newPlayer
+          "+"
+
+      Element
+        childrenLayout: :column
+        array player in @players
+          &PlayerScore {player}
+
+      Element
+        size: w: gridSize
+        childrenLayout: :column
+        &Button
+          height: 3
+          "!"

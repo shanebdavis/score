@@ -1,0 +1,52 @@
+import &StandardImport
+
+class App extends FluxComponent
+  @subscriptions :navState.navState
+
+  render: ->
+    {gridSize, margin} = Style
+    Element
+      draw: #222
+      key: "appRoot"
+      padding: 10
+      Element
+        location: :centerCenter
+        axis: .5
+
+        size:
+          w: gridSize * 10
+          h: gridSize * 6
+
+        scale: (ps, cs) -> ps.minRatio cs
+        draw: :black
+
+        switch
+        when @navState.confirmDeletePlayerId
+          &ConfirmDelete playerId: @navState.confirmDeletePlayerId
+        when @navState.editPlayerId
+          &PlayerEditor playerId: @navState.editPlayerId
+        else
+          &ScoreView()
+
+      # if @buttonAnimationArea
+      #   {cc, size} = rect @buttonAnimationArea
+      #   Element
+      #     key: :buttonAnimationArea
+      #     size: size
+      #     location: cc
+      #     compositeMode: :add
+      #     axis: .5
+      #     opacity: .05
+      #     scale: 2
+      #     draw:
+      #       color: #fff7
+
+      #     animators:
+      #       scale:
+      #         duration: 1
+      #         from: 1
+      #       opacity:
+      #         duration: 1
+      #         from: 1
+      #         on: done: @models.navState.clearButtonAnimationArea
+

@@ -1,0 +1,4 @@
+&ArtSuite.merge
+  {} &Style # use Style.foo if you want Style to hot-update
+  &Style
+  &ArtSuite
