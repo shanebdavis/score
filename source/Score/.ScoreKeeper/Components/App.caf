@@ -20,13 +20,10 @@ class App extends FluxComponent
         scale: (ps, cs) -> ps.minRatio cs
         draw: :black
 
-        switch
-        when @navState.confirmDeletePlayerId
-          &ConfirmDelete playerId: @navState.confirmDeletePlayerId
-        when @navState.editPlayerId
+        &ScoreView hidden: !!@navState.editPlayerId
+        if @navState.editPlayerId
           &PlayerEditor playerId: @navState.editPlayerId
-        else
-          &ScoreView()
+
 
       # if @buttonAnimationArea
       #   {cc, size} = rect @buttonAnimationArea

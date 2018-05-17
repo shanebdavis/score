@@ -1,16 +1,55 @@
 import &ArtSuite
 class Style extends HotStyleProps
   @colors:
-    #fe4544
-    #fe8922
-    #fdff33
-    #65ff35
-    #66ffcc
-    #3089ff
-    #a854ff
-    #fc89ff
-    #a7a8a9
-    #f5f6f7
+    hslColor 0      1   .9
+    hslColor 1/12,  1   .9
+    hslColor 2/12,  1   .9
+    hslColor 3/12,  1   .9
+    hslColor 7/12,  .7   1
+    hslColor 9/12,  .7   1
+    hslColor 10/12, .4   1
+    #222
+    #999
+    #eee
+
+    hslColor 1/12,  .5    .5
+    hslColor 6/12,  1     .8
+    hslColor 8/12,  .75    1
+    # [] # gold, almost works, but animations break
+    #   #6c4904
+    #   #9d7214
+    #   #ebc228
+    #   #ffec32
+    #   #ebc228
+    #   #9d7214
+    #   #6c4904
+
+  fontSize = 100
+
+  @Icons: object text in
+      arrowDown:    "\ue910"
+      arrowLeft:    "\ue913"
+      arrowRight:   "\ue912"
+      arrowUp:      "\ue911"
+      check:        "\ue917"
+      chevronDown:  "\ue90b"
+      chevronLeft:  "\ue90e"
+      chevronRight: "\ue90d"
+      chevronUp:    "\ue90c"
+      info:         "\ue918"
+      pause:        "\ue919"
+      play:         "\ue91a"
+      stop:         "\ue91b"
+      +:            "\ue91c"
+      -:            "\ue916"
+      *:            "\ue915"
+      !:            "\ue914"
+      ?:            "\ue91d"
+
+      circleO:            "\ue90f"
+      circle:             "\ue91e"
+
+    {} fontFamily: "icomoon", layoutMode: "tight", fontSize, text
 
   @white: rgbColor :white
 
@@ -19,8 +58,8 @@ class Style extends HotStyleProps
   @gridSize: 175
   @animationDelay: .025
 
-  @heavyText:
+  @heavyText: {}
     fontWeight: :bold
     fontFamily: "" Arial Black
-    fontSize:   100
+    fontSize
     align:      .5

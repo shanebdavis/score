@@ -3,5 +3,13 @@ import &ArtSuite
 
 &ArtSuite.initArtSuiteApp
   title: :ScoreKeeper
+  fonts:
+    icomoon:
+      loadedTestText: "\ue90b"
+      css: document.readyState == "loading" && "assets/icomoon/style.css"
+      expectedTestWidth: 10.28
+      timeout: 10000
+      # onTimeout: -> Icons.setFontFailedToLoad()
+
   MainComponent: class Main extends Component
     render: -> CanvasElement &Components/App()

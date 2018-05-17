@@ -5,7 +5,10 @@ class NavState extends ApplicationState
     buttonAnimationArea: null
     confirmDeletePlayerId: null
     editPlayerId: null
+    editNewPlayer: false
 
   playerDeleted: (playerId) ->
-    @editPlayerId = null if @editPlayerId = playerId
+    if @editPlayerId = playerId
+      @editPlayerId = null
+      @editNewPlayer = false
     @confirmDeletePlayerId = null if @confirmDeletePlayerId = playerId

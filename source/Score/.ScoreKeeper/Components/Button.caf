@@ -3,20 +3,30 @@ import &StandardImport
 class Button extends PointerActionsMixin FluxComponent
 
   action: ({target}, b)->
-    @props.action? null, @props
-    el = target
-    while el && el.key != :appRoot
-      el = el.parent
-    @models.navState.buttonAnimationArea = target.getElementToElementMatrix(el).transformBoundingRect target.paddedArea
+    unless @props.hidden || @props.disabled
+      @props.action? null, @props
+      el = target
+      while el && el.key != :appRoot
+        el = el.parent
+      @models.navState.buttonAnimationArea = target.getElementToElementMatrix(el).transformBoundingRect target.paddedArea
 
   render: ->
-    {color = #444, text, delay, width = 1, height = 1} = @props
+    {icon, disabled, beforeText, color = #444, text, delay, hidden, width = 1, height = 1} = @props
     {padding, gridSize} = Style
+    c = unless color is Array
+      rgbColor color
+    txtColor = if c?.perceptualLightness < .4
+      #fff9
+    else
+      #000
 
     Element
       on: @buttonHandlers
-      cursor: :pointer
+      cursor: !disabled && :pointer
       padding: padding
+      animators: :size :opacity
+      clip: true
+      opacity: if disabled then .5 else 1
 
       size:
         h: height * gridSize
@@ -26,6 +36,7 @@ class Button extends PointerActionsMixin FluxComponent
         axis: .5
         location: :centerCenter
         animateOnCreation: true
+        scale: if hidden then 0 else 1
         animators:
           scale:
             toFrom: 0
@@ -36,16 +47,47 @@ class Button extends PointerActionsMixin FluxComponent
 
         draw:
           :padded
-          color
+          fill:
+            color: color
+            to: :bottomRight
 
         @hover && Element
           animators: opacity: toFrom: 0
           draw: #fff7
 
-        TextElement
-          size: :childrenSize
+        Element
+          key:  :content
+          size:     :parentHeightChildrenWidth
           location: :centerCenter
-          axis: .5
+          childrenLayout: :row
+          axis:     .5
           scale: (ps, cs) -> min 1, ps.minRatio cs
-          Style.heavyText
-          text && upperCase text
+          if beforeText
+            Element
+              margin:   gridSize /2
+              key:      :beforeText
+              size:     :parentHeightChildrenWidth
+              animators:
+                size: toFrom: w:0
+                margin: toFrom: 0
+              clip: true
+
+              TextElement
+                size:     :parentHeightChildrenWidth
+                align:    .5
+                color:    txtColor
+                Style.heavyText
+                upperCase beforeText
+
+          TextElement
+            key:      :mainText
+            size:     :parentHeightChildrenWidth
+            color:    txtColor
+            animators: :color
+            align:    .5
+            if icon
+              Icons[icon]
+            else if text
+              []
+                Style.heavyText
+                upperCase text

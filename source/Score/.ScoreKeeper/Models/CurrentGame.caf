@@ -16,19 +16,17 @@ class CurrentGame extends ApplicationState
 
   confirmDeletePlayer: (playerId = @models.navState.confirmDeletePlayerId) ->
     @models.navState.playerDeleted playerId
-    log {playerId}
-    @players = log objectWithout @players, "#{playerId}"
+    @players = objectWithout @players, "#{playerId}"
 
   newPlayer: ->
 
     @updatePlayer
-      id = @nextId++
+      id =    @nextId++
       id:     id
       color:  #fdff33
       score:  0
       name:   ""
 
-    log {id}
     id
 
   add: (playerId, amount) ->

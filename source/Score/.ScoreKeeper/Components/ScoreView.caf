@@ -5,29 +5,43 @@ class ScoreView extends FluxComponent
 
   newPlayer: ->
     @models.navState.editPlayerId = @models.currentGame.newPlayer()
+    @models.navState.editNewPlayer = true
 
   render: ->
     {gridSize, margin} = Style
+    {hidden} = @props
+    {editNewPlayer, editPlayerId} = @models.navState
 
     Element
       childrenLayout: :row
+      clip: true
 
       Element
+        cacheDraw: true
         size: w: gridSize
+        animators: :axis
+        axis: if hidden then x:1 else 0
         childrenLayout: :column
         &Button
-          height: 3
+          height: 6
           action: @newPlayer
-          "+"
+          icon: :+
 
       Element
+        cacheDraw: true
+        axis: if hidden then y:1 else 0
+        animators: :axis
+        size: :parentWidthChildrenHeight
         childrenLayout: :column
-        array player in @players
+        array player in @players when !editNewPlayer || player.id != editPlayerId
           &PlayerScore {player}
 
       Element
+        cacheDraw: true
         size: w: gridSize
+        animators: :axis
+        axis: if hidden then x:-1 else 0
         childrenLayout: :column
         &Button
-          height: 3
-          "!"
+          height: 6
+          icon: :info
