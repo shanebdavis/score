@@ -1,0 +1,124 @@
+import &StandardImport
+{createGestureRecognizer} = Events.GestureRecognizer
+
+class PlayerScore extends FluxComponent
+
+  @propFields
+    player: null
+
+  edit: ->
+    @models.navState.editPlayerId = @player.id
+
+  constructor: ->
+    @timer = new ReschedulableTimer
+    @startAmount = 0
+
+  @stateFields
+    xOffset:  0
+    amount:   null
+    tracking: false
+
+  applyAmount: ->
+    if @amount is Number
+      @models.currentGame.add @player.id, @amount
+
+    @cancel()
+
+  cancel: (e) ->
+    @amount = null
+    @xOffset = 0
+    @tracking = false
+    @timer.cancel()
+
+  begin: (e) ->
+    @startAmount = @amount ||= 0
+    @timer.cancel()
+
+    @tracking = true
+
+  gestureEffectScaler = 1/3
+  move:  (e) ->
+    absDeltaX = abs deltaX = @xOffset = e.totalParentDelta.x
+    sign = deltaX / absDeltaX
+    absDeltaX += 15 * gestureEffectScaler if absDeltaX > 0
+
+    addAmount =
+      sign
+      * Math.pow absDeltaX * gestureEffectScaler / 20, 1.5
+      | 0
+    @amount = @startAmount + addAmount
+
+  end:   (e) ->
+    @timer.timeout 3000, @applyAmount
+    @xOffset = 0
+    @tracking = false
+
+  getInitialState: ->
+    handlers:
+      createGestureRecognizer
+        horizontal: {@begin, @move, @end, @cancel}
+        pointerClick: @edit
+
+  render: ->
+    {gridSize, padding} = Style
+    {name, score, color} = @player
+    textColor = getContrastingTextColor color
+    Element
+      clip: true
+      location: {@props.y}
+      animators: :location
+
+      size: h: gridSize
+      on: @state.handlers
+      cursor: :pointer
+      padding: padding
+      Element
+        location: x: @xOffset
+        size: xw: 2
+        animators: !@tracking &&
+          location:
+            f: :easeInBounce
+            duration: 1
+        draw: color
+        childrenLayout: :row
+        padding: h: gridSize / 4
+
+        TextElement
+          Style.heavyText
+          size:     :parentHeightChildrenWidth
+          color:    textColor
+          upperCase name
+
+        Element()
+
+      Element
+        size:     :childrenSize
+        location: :centerRight
+        axis:     :centerRight
+        draw:
+          padding:  -gridSize/6
+          radius:   -gridSize/6
+          color
+        childrenLayout: :row
+        if haveAmount = @amount is Number
+          TextElement
+            Style.heavyText
+            key: :computation
+            fontSize: fontSize = Style.heavyText.fontSize * 2/3
+            size:     :childrenSize
+            padding:  right: fontSize * .33
+            color:    textColor
+            animators: opacity: toFrom: 0
+            text:
+              if @amount < 0 then " #{score} - #{-@amount} ="
+              else                " #{score} + #{@amount} ="
+
+        TextElement
+          Style.heavyText
+          fontSize: Style.heavyText.fontSize * 2/3
+          size:     :childrenSize
+          padding:  right: gridSize / 4
+          color:    textColor
+          text:
+            score
+            + @amount ? 0
