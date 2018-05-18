@@ -6,6 +6,7 @@ class ColorPicker extends FluxComponent
     {selected} = @props
     selected = rgbColor selected if selected?
     ScrollElement
+      crop: true
       size: :parentWidthChildrenHeight
       childrenLayout: :row
       childrenAlignment: :center

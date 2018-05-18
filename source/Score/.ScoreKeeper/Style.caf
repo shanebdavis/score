@@ -62,7 +62,7 @@ class Style extends HotStyleProps
 
   @heavyText: {}
     fontWeight: :bold
-    fontFamily: "" Arial Black
+    fontFamily: "" Arial Black, Arial
     fontSize
     align:      .5
 
