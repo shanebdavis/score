@@ -13,7 +13,7 @@ class ColorPicker extends FluxComponent
         &Button {}
           hidden: @props.hidden
           width: 1
-          delay: animationDelay * ((i%5)+(i/5|0))
+          delay: animationDelay * i
           color
           action: -> @props.action? color
           icon: if selected?.eq color then :circle

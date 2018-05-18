@@ -1,30 +1,29 @@
 import &ArtSuite
 class Style extends HotStyleProps
-  @colors:
-    hslColor 0      1   .9
-    hslColor 1/12,  1   .9
-    hslColor 2/12,  1   .9
-    hslColor 3/12,  1   .9
-    hslColor 7/12,  .7   1
-    hslColor 9/12,  .7   1
-    hslColor 10/12, .4   1
-    #222
-    #999
-    #eee
+  @colors: array c in []
+      hslColor 0      1   .9
+      hslColor 1/12,  1   .9
+      hslColor 2/12,  1   .9
+      hslColor 3/12,  1   .9
+      hslColor 7/12,  .7   1
+      hslColor 9/12,  .7   1
+      hslColor 10/12, .4   1
+      #222
+      #999
+      #eee
 
-    hslColor 1/12,  .5    .5
-    hslColor 6/12,  1     .8
-    hslColor 8/12,  .75    1
-    # [] # gold, almost works, but animations break
-    #   #6c4904
-    #   #9d7214
-    #   #ebc228
-    #   #ffec32
-    #   #ebc228
-    #   #9d7214
-    #   #6c4904
+      hslColor 1/12,  .5    .5
+      hslColor 6/12,  1     .8
+      hslColor 8/12,  .75    1
+      # [] # gold, almost works, but animations break
+      #   #6c4904
+      #   #9d7214
+      #   #ebc228
+      #   #ffec32
+      #   #ebc228
+      #   #9d7214
+      #   #6c4904
 
-  @colors = array c in @colors
     rgbColor c
 
   fontSize = 100
