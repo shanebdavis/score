@@ -4,11 +4,6 @@ class CurrentGame extends ApplicationState
 
   @stateFields
     players: {}
-      1:
-        id:     1
-        name:   :Shane
-        color:  #fdff33
-        score:  10
     nextId: 2
 
   @getter

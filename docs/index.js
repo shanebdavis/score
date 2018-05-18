@@ -77210,12 +77210,7 @@ Caf.defMod(module, () => {
       return (CurrentGame = Caf.defClass(
         class CurrentGame extends ApplicationState {},
         function(CurrentGame, classSuper, instanceSuper) {
-          this.stateFields({
-            players: {
-              1: { id: 1, name: "Shane", color: "#fdff33", score: 10 }
-            },
-            nextId: 2
-          });
+          this.stateFields({ players: {}, nextId: 2 });
           this.getter({
             unusedColor: function() {
               return Caf.find(Style.colors, null, c => {
