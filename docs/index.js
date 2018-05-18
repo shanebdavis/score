@@ -8487,6 +8487,7 @@ Caf.defMod(module, () => {
     [
       "PointerActionsMixin",
       "FluxComponent",
+      "min",
       "Style",
       "Array",
       "rgbColor",
@@ -8495,13 +8496,13 @@ Caf.defMod(module, () => {
       "TextElement",
       "upperCase",
       "Icons",
-      "present",
-      "min"
+      "present"
     ],
     [global, __webpack_require__(102)],
     (
       PointerActionsMixin,
       FluxComponent,
+      min,
       Style,
       Array,
       rgbColor,
@@ -8510,13 +8511,13 @@ Caf.defMod(module, () => {
       TextElement,
       upperCase,
       Icons,
-      present,
-      min
+      present
     ) => {
       let Button;
       return (Button = Caf.defClass(
         class Button extends PointerActionsMixin(FluxComponent) {},
         function(Button, classSuper, instanceSuper) {
+          let scaleFit;
           this.prototype.action = function({ target }, b) {
             let el, cafBase;
             return !(this.props.hidden || this.props.disabled)
@@ -8532,6 +8533,9 @@ Caf.defMod(module, () => {
                   .getElementToElementMatrix(el)
                   .transformBoundingRect(target.paddedArea)))
               : undefined;
+          };
+          scaleFit = function(ps, cs) {
+            return min(1, ps.minRatio(cs));
           };
           this.prototype.render = function() {
             let icon,
@@ -8595,7 +8599,7 @@ Caf.defMod(module, () => {
                     location: "centerCenter",
                     childrenLayout: "row",
                     axis: 0.5,
-                    scale: (ps, cs) => min(1, ps.minRatio(cs))
+                    scale: scaleFit
                   },
                   beforeText
                     ? Element(

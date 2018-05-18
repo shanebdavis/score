@@ -10,6 +10,7 @@ class Button extends PointerActionsMixin FluxComponent
         el = el.parent
       @models.navState.buttonAnimationArea = target.getElementToElementMatrix(el).transformBoundingRect target.paddedArea
 
+  scaleFit = (ps, cs) -> min 1, ps.minRatio cs
   render: ->
     {icon, disabled, beforeText, color = #444, text, delay, hidden, width = 1, height = 1} = @props
     {padding, gridSize} = Style
@@ -53,12 +54,12 @@ class Button extends PointerActionsMixin FluxComponent
           draw: #fff7
 
         Element
-          key:  :content
+          key:      :content
           size:     :parentHeightChildrenWidth
           location: :centerCenter
           childrenLayout: :row
           axis:     .5
-          scale: (ps, cs) -> min 1, ps.minRatio cs
+          scale: scaleFit
           if beforeText
             Element
               margin:   gridSize /2
