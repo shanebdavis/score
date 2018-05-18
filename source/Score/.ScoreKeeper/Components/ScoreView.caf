@@ -31,9 +31,8 @@ class ScoreView extends FluxComponent
         axis: if hidden then y:1 else 0
         animators: :axis
         size: :parentWidthChildrenHeight
-        childrenLayout: :column
-        array player in @players
-          &PlayerScore {player}
+        array player, i in (array @players).sort (a, b) -> b.score - a.score
+          &PlayerScore2 {} player, key: player.id, y: gridSize * i
 
       Element
         cacheDraw: true

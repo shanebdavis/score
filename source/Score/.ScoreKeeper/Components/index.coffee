@@ -11,4 +11,5 @@ module.exports
   Keyboard:      require './Keyboard'     
   PlayerEditor:  require './PlayerEditor' 
   PlayerScore:   require './PlayerScore'  
+  PlayerScore2:  require './PlayerScore2' 
   ScoreView:     require './ScoreView'    

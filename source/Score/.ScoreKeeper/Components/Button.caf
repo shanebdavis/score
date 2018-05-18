@@ -15,10 +15,7 @@ class Button extends PointerActionsMixin FluxComponent
     {padding, gridSize} = Style
     c = unless color is Array
       rgbColor color
-    txtColor = if c?.perceptualLightness < .4
-      #fff9
-    else
-      #000
+    txtColor = getContrastingTextColor c
 
     Element
       on: @buttonHandlers

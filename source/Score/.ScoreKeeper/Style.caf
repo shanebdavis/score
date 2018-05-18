@@ -65,3 +65,9 @@ class Style extends HotStyleProps
     fontFamily: "" Arial Black
     fontSize
     align:      .5
+
+  @getContrastingTextColor: (c) ->
+    if rgbColor(c).perceptualLightness < .4
+      #fff9
+    else
+      #000
