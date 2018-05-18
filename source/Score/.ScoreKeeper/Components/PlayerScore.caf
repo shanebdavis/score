@@ -6,7 +6,6 @@ class PlayerScore extends FluxComponent
     player: null
 
   edit: ->
-    @models.navState.editNewPlayer=false
     @models.navState.editPlayerId = @player.id
 
   add: -> @models.currentGame.add @player.id

@@ -3,6 +3,8 @@ import &StandardImport
 class ColorPicker extends FluxComponent
 
   render: ->
+    {selected} = @props
+    selected = rgbColor selected if selected?
     ScrollElement
       size: :parentWidthChildrenHeight
       childrenLayout: :row
@@ -14,3 +16,4 @@ class ColorPicker extends FluxComponent
           delay: animationDelay * ((i%5)+(i/5|0))
           color
           action: -> @props.action? color
+          icon: if selected?.eq color then :circle

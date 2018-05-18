@@ -11,21 +11,27 @@ class CurrentGame extends ApplicationState
         score:  10
     nextId: 2
 
+  @getter
+    unusedColor: ->
+      find c in Style.colors when
+        c = rgbColor c
+        !find {color} in @players when rgbColor(color).eq c
+
   updatePlayer: (playerId, props) ->
     @players = merge @players, [playerId]: merge @players[playerId], props
 
-  confirmDeletePlayer: (playerId = @models.navState.confirmDeletePlayerId) ->
-    @models.navState.playerDeleted playerId
+  deletePlayer: (playerId) ->
     @players = objectWithout @players, "#{playerId}"
 
-  newPlayer: ->
-
+  newPlayer: (initialProps)->
     @updatePlayer
       id =    @nextId++
-      id:     id
-      color:  #fdff33
-      score:  0
-      name:   ""
+      merge
+        id:     id
+        color:  #fdff33
+        score:  0
+        name:   ""
+        initialProps
 
     id
 

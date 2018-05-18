@@ -79,15 +79,26 @@ class Button extends PointerActionsMixin FluxComponent
                 Style.heavyText
                 upperCase beforeText
 
-          TextElement
-            key:      :mainText
-            size:     :parentHeightChildrenWidth
-            color:    txtColor
-            animators: :color
-            align:    .5
-            if icon
+          if icon
+            TextElement
+              key:      :icon
+              size:     :parentHeightChildrenWidth
+              color:    txtColor
+              animators:
+                color: true
+                opacity: toFrom: 0
+
+              align:    .5
               Icons[icon]
-            else if text
-              []
-                Style.heavyText
-                upperCase text
+          else if present text
+            TextElement
+              key:      :mainText
+              size:     :parentHeightChildrenWidth
+              color:    txtColor
+              animators:
+                color: true
+                opacity: toFrom: 0
+
+              align:    .5
+              Style.heavyText
+              upperCase text

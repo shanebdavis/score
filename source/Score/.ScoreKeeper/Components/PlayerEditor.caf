@@ -1,40 +1,68 @@
 import &StandardImport
 
 class PlayerEditor extends FluxComponent
-  @subscriptions :currentGame.players :navState.navState
+  @subscriptions :navState.navState
 
   @propFields
     playerId: null
 
-  @getter
-    player: -> @players[@playerId]
-    name:   -> @player?.name
-    color:  -> @player?.color
+  @stateFields
+    name:   ""
+    color:  null
+    confirmDeletePlayer: false
 
-  deletePlayer: -> @models.navState.confirmDeletePlayerId = @playerId
+  getInitialState: ->
+    if @existingPlayer
+      {}
+    else
+      name: ""
+      color: @models.currentGame.unusedColor
+
+  @getter
+    existingPlayer: -> @models.currentGame.players[@playerId]
+    newPlayer: -> !@existingPlayer
+    player: -> @existingPlayer ? @state
+    name:   -> @player.name
+    color:  -> @player.color
+
+  deletePlayer: ->
+    @models.currentGame.deletePlayer @playerId unless @newPlayer
+    @close()
+
+  setPlayerState: (state)->
+    if @newPlayer
+      @setState state
+    else
+      @models.currentGame.updatePlayer @playerId, state
 
   @setter
-    color: (color) -> @models.currentGame.updatePlayer @playerId, {} color
-    name:  (name)  -> @models.currentGame.updatePlayer @playerId, {} name
+    color: (color) -> @setPlayerState {} color
+    name:  (name)  -> @setPlayerState {} name
 
   done: ->
+    if @newPlayer
+      @models.currentGame.newPlayer {} @name, @color
+
+    @close()
+
+  close: ->
     @models.navState.clearEditPlayerId()
 
   render: ->
     {color} = @
-    confirmDelete = @navState.confirmDeletePlayerId
+    confirmDelete = !!@confirmDeletePlayer
     legalName = present @name
 
     Element
       childrenLayout: :column
 
-      &ColorPicker action: @setColor, hidden: confirmDelete
+      &ColorPicker action: @setColor, hidden: confirmDelete, selected: @color
       Element
         size: h: gridSize
       Element
         size: h: gridSize
         childrenLayout: :row
-        &Button {} color, width: 2,                            hidden: confirmDelete, icon: :-, action: @deletePlayer
+        &Button {} color, width: 2,                            hidden: confirmDelete, icon: :-, action: @toggleConfirmDeletePlayer
         &Button {}
           color
           width: 6
@@ -60,5 +88,5 @@ class PlayerEditor extends FluxComponent
             x: gridSize * 2
             y: gridSize * 3
           childrenLayout: :row
-          &Button {} color, width: 3, delay: animationDelay*5, icon: :*     action: @models.navState.clearConfirmDeletePlayerId
-          &Button {} color, width: 3, delay: animationDelay*7, icon: :check action: @models.currentGame.confirmDeletePlayer
+          &Button {} color, width: 3, delay: animationDelay*5, icon: :*     action: @clearConfirmDeletePlayer
+          &Button {} color, width: 3, delay: animationDelay*7, icon: :check action: @deletePlayer

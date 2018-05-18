@@ -24,6 +24,9 @@ class Style extends HotStyleProps
     #   #9d7214
     #   #6c4904
 
+  @colors = array c in @colors
+    rgbColor c
+
   fontSize = 100
 
   @Icons: object text in
