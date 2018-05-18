@@ -76383,7 +76383,7 @@ Caf.defMod(module, () => {
             }
             return ScrollElement(
               {
-                crop: true,
+                clip: true,
                 size: "parentWidthChildrenHeight",
                 childrenLayout: "row",
                 childrenAlignment: "center"
