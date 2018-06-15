@@ -1,5 +1,0 @@
-import &ArtStandardLib, &ArtEry
-
-class IndexedDbPipeline extends KeyFieldsMixin UpdateAfterMixin Pipeline
-  @handlers
-    create: (request) ->

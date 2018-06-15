@@ -7,6 +7,4 @@ webpack:
 
   # each target's individual properties
   targets:
-    ScoreMore: {}
-    JustScore: {}
     ScoreKeeper: {}

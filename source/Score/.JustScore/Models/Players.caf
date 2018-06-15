@@ -1,4 +1,0 @@
-import &StandardLib
-
-class Players extends ApplicationState
-  @persistant()
