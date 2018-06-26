@@ -5,6 +5,7 @@ class PlayerScore extends FluxComponent
 
   @propFields
     player: null
+    time: null
 
   edit: ->
     @models.navState.editPlayerId = @player.id
@@ -20,7 +21,10 @@ class PlayerScore extends FluxComponent
 
   applyAmount: ->
     if @amount is Number
-      @models.currentGame.add @player.id, @amount
+      if @props.add
+        @props.add @player.id, @amount
+      else
+        @models.currentGame.add @player.id, @amount
 
     @cancel()
 
@@ -122,3 +126,12 @@ class PlayerScore extends FluxComponent
           text:
             score
             + @amount ? 0
+      if @time
+        TextElement
+          Style.tinyText
+          color: textColor
+          axis: :bottomRight
+          location: :bottomRight
+          size: :childrenSize
+          text: formatDate toDate(@time), "h:MMtt"
+          padding: bottom: 20, right: 5

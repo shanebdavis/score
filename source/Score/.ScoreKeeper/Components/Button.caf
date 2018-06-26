@@ -12,13 +12,13 @@ class Button extends PointerActionsMixin FluxComponent
 
   scaleFit = (ps, cs) -> min 1, ps.minRatio cs
   render: ->
-    {icon, angle, size, disabled, x, y, beforeText, color = #444, text, delay, hidden, width = 1, height = 1} = @props
+    {icon, angle, size, disabled, x, y, beforeText, color = Style.defaultButtonColor, text, delay, hidden, width = 1, height = 1} = @props
     {padding, gridSize} = Style
     c = unless color is Array
       rgbColor color
     txtColor = getContrastingTextColor c
 
-    disabled = true unless @props.action
+    disabled ?= true unless @props.action
 
     Element
       on: @buttonHandlers

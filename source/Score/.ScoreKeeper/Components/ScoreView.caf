@@ -16,25 +16,29 @@ class ScoreView extends FluxComponent
     {sortedPlayers} = @
 
     Element
-      childrenLayout: :row
+      childrenLayout: :column
       clip: true
+      axis: if hidden then y:1 else 0
+      animators: :axis
+      cacheDraw: true
 
-      Element
-        cacheDraw: true
-        axis: if hidden then y:1 else 0
-        animators: :axis
-        size: :parentWidthChildrenHeight
-        array player, i in sortedPlayers
-          &PlayerScore2 {} player, key: player.id, y: gridSize * i
+      &Label "Current Game"
 
+      ScrollElement
+        clip: true
         Element
-          cacheDraw: true
-          location: y: gridSize * sortedPlayers.length
-          size: h: gridSize
-          animators: :location
-          childrenLayout: :column
-          &Button
-            width: 8
-            action: @newPlayer
-            icon: :+
+          size: :parentWidthChildrenHeight
+          array player, i in sortedPlayers
+            &PlayerScore2 {} player, key: player.id, y: gridSize * i
+
+          Element
+            cacheDraw: true
+            location: y: gridSize * sortedPlayers.length
+            size: h: gridSize
+            animators: :location
+            childrenLayout: :column
+            &Button
+              width: 8
+              action: @newPlayer
+              icon: :+
 

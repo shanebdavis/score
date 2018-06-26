@@ -35,11 +35,11 @@ class App extends FluxComponent
             action: if @page > 0 then -> @page--
 
           Element
-            size: gridSize * 8
+            size: w: gridSize * 8
             clip: true
 
             Element
-              size: gridSize * 8 * 4
+              size: w: gridSize * 8 * 4
               location: x: -gridSize * 8 * page
               animators: :location
               childrenLayout: :row
@@ -52,14 +52,16 @@ class App extends FluxComponent
                   color: TextPalette.white.primary
 
               Element
-                size: gridSize * 8
-                &Button
-                  width: 8
-                  text: "Games"
+                size: w: gridSize * 8
+                &Label "Games"
 
               Element
-                size: gridSize * 8
+                size: w: gridSize * 8
                 &ScoreView hidden: showKeyboard
+
+              Element
+                size: w: gridSize * 8
+                &History()
 
           &Button
             height: 6

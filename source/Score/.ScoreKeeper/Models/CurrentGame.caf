@@ -5,6 +5,7 @@ class CurrentGame extends ApplicationState
   @stateFields
     players: {}
     nextId: 2
+    history: []
 
   @getter
     unusedColor: ->
@@ -28,8 +29,24 @@ class CurrentGame extends ApplicationState
         name:   ""
         initialProps
 
+    @pushHistory id, {}
     id
+
+  pushHistory: (playerId, props) ->
+    @history = arrayWith @history, log merge {playerId, createdAt: toSeconds(), add: 0}, props
+
+  addHistory: (historyEntry, amount) ->
+    amount ?= 1
+    if entry = @history[historyEntry]
+      entry extract playerId
+      h = @history.slice()
+      h[historyEntry] = merge entry,
+        add: entry.add + amount
+        updatedAt: toSeconds()
+      @history = h
+      @updatePlayer playerId, score: @players[playerId].score + amount
 
   add: (playerId, amount) ->
     amount ?= 1
+    @pushHistory playerId, add: amount
     @updatePlayer playerId, score: @players[playerId].score + amount

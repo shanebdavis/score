@@ -60,11 +60,23 @@ class Style extends HotStyleProps
   @gridSize: 175
   @animationDelay: .025
 
+  @defaultButtonColor: #444
+
+  fontFamily = "" Arial Black, Arial
+
   @heavyText: {}
     fontWeight: :bold
-    fontFamily: "" Arial Black, Arial
+    fontFamily
     fontSize
     align:      .5
+
+  @tinyText: {}
+    fontFamily
+    fontSize:   fontSize / 4
+
+  @mediumText: {}
+    fontFamily
+    fontSize:   fontSize / 2
 
   @getContrastingTextColor: (c) ->
     if rgbColor(c).perceptualLightness < .4

@@ -1,0 +1,26 @@
+import &StandardImport, {} &Button
+
+class History extends FluxComponent
+  @subscriptions :currentGame.history :currentGame.players
+
+  render: ->
+    {players} = @
+
+    playerScores = {}
+
+    Element
+      childrenLayout: :column
+      &Label "History"
+
+      ScrollElement
+        clip: true
+
+        array {playerId, add = 0, createdAt}, i in @history
+          score = playerScores[playerId] = (playerScores[playerId] ? 0) + add
+          &PlayerScore2
+            key: playerId
+            player: objectWith players[playerId], :score, score
+            time: createdAt
+            add: (__, amount) ->
+              log {i, amount}
+              @models.currentGame.addHistory i, amount

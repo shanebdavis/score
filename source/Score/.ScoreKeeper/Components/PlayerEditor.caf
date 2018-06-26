@@ -70,6 +70,7 @@ class PlayerEditor extends FluxComponent
           beforeText:
             confirmDelete && "delete"
           text: @name + if confirmDelete then "?" else "|"
+          disabled: false
         &Button {} color, width: 2, delay: animationDelay * 6, disabled: !legalName, hidden: confirmDelete, icon: :check, action: @done
 
       &Keyboard {}

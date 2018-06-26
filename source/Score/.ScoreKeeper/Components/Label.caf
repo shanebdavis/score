@@ -1,0 +1,23 @@
+import &StandardImport
+
+class Label extends Component
+
+  render: ->
+    {width = 1, height = 1, text, color = Style.defaultButtonColor} = @props
+    {padding, gridSize} = Style
+
+    Element
+      size:
+        h: gridSize / 2
+
+      padding: padding
+      draw:
+        :padded
+        color
+
+      TextElement
+        Style.mediumText
+        text: text
+        color: getContrastingTextColor color
+        align: .5
+
