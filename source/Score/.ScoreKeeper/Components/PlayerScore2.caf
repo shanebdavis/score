@@ -76,33 +76,42 @@ class PlayerScore extends FluxComponent
       on: @state.handlers
       cursor: :pointer
       padding: padding
+      draw: color
+
+      TextElement
+        Style.heavyText
+        padding: h: gridSize / 4
+        size:     :parentHeightChildrenWidth
+        color:    textColor
+        upperCase name
+
       Element
-        location: x: @xOffset
-        size: xw: 2
+        size:
+          h: gridSize / 2
+          w: grabberSize = gridSize / 3
+        axis: .5
         animators: !@tracking &&
           location:
             f: :easeInBounce
             duration: 1
-        draw: color
-        childrenLayout: :row
-        padding: h: gridSize / 4
+        location:
+          ps: .5
+          x: @xOffset
 
-        TextElement
-          Style.heavyText
-          size:     :parentHeightChildrenWidth
-          color:    textColor
-          upperCase name
-
-        Element()
+        draw:
+          array i til 3
+            radius: 100
+            rectangle: rect
+              (i * grabberSize / 2) - gridSize / 16
+              0
+              gridSize / 8
+              gridSize / 2
+            fill: #0004
 
       Element
         size:     :childrenSize
         location: :centerRight
         axis:     :centerRight
-        draw:
-          padding:  -gridSize/6
-          radius:   -gridSize/6
-          color
         childrenLayout: :row
         if haveAmount = @amount is Number
           TextElement
