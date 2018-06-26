@@ -6,10 +6,14 @@ class ScoreView extends FluxComponent
   newPlayer: ->
     @models.navState.editPlayerId = :new
 
+  @getter
+    sortedPlayers: -> (array @players).sort (a, b) -> b.score - a.score
+
   render: ->
     {gridSize, margin} = Style
     {hidden} = @props
     {editPlayerId} = @models.navState
+    {sortedPlayers} = @
 
     Element
       childrenLayout: :row
@@ -17,29 +21,20 @@ class ScoreView extends FluxComponent
 
       Element
         cacheDraw: true
-        size: w: gridSize
-        animators: :axis
-        axis: if hidden then x:1 else 0
-        childrenLayout: :column
-        &Button
-          height: 6
-          action: @newPlayer
-          icon: :+
-
-      Element
-        cacheDraw: true
         axis: if hidden then y:1 else 0
         animators: :axis
         size: :parentWidthChildrenHeight
-        array player, i in (array @players).sort (a, b) -> b.score - a.score
+        array player, i in sortedPlayers
           &PlayerScore2 {} player, key: player.id, y: gridSize * i
 
-      Element
-        cacheDraw: true
-        size: w: gridSize
-        animators: :axis
-        axis: if hidden then x:-1 else 0
-        childrenLayout: :column
-        &Button
-          height: 6
-          icon: :info
+        Element
+          cacheDraw: true
+          location: y: gridSize * sortedPlayers.length
+          size: h: gridSize
+          animators: :location
+          childrenLayout: :column
+          &Button
+            width: 8
+            action: @newPlayer
+            icon: :+
+

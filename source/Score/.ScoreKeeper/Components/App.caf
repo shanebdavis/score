@@ -3,12 +3,18 @@ import &StandardImport
 class App extends FluxComponent
   @subscriptions :navState.navState
 
+  @stateFields
+    page: 0
+
   render: ->
     {gridSize, margin} = Style
+    {page} = @
+
+    showKeyboard = !!@navState.editPlayerId
     Element
-      draw: #222
+      draw: :black
       key: "appRoot"
-      padding: 10
+
       Element
         location: :centerCenter
         axis: .5
@@ -18,32 +24,49 @@ class App extends FluxComponent
           h: gridSize * 6
 
         scale: (ps, cs) -> ps.minRatio cs
-        draw: :black
 
-        &ScoreView hidden: !!@navState.editPlayerId
-        if @navState.editPlayerId
+        Element
+          childrenLayout: :row
+
+          &Button
+            height: 6
+            icon: :chevronLeft
+            hidden: showKeyboard
+            action: if @page > 0 then -> @page--
+
+          Element
+            size: gridSize * 8
+            clip: true
+
+            Element
+              size: gridSize * 8 * 4
+              location: x: -gridSize * 8 * page
+              animators: :location
+              childrenLayout: :row
+
+              Element
+                size: w: gridSize * 8, h: gridSize * 6
+                TextElement
+                  Style.heavyText
+                  text: "Rock, paper\nScore!"
+                  color: TextPalette.white.primary
+
+              Element
+                size: gridSize * 8
+                &Button
+                  width: 8
+                  text: "Games"
+
+              Element
+                size: gridSize * 8
+                &ScoreView hidden: showKeyboard
+
+          &Button
+            height: 6
+            icon: :chevronRight
+            hidden: showKeyboard
+            action: if @page < 3 then -> @page++
+
+        if showKeyboard
           &PlayerEditor playerId: @navState.editPlayerId
-
-
-      # if @buttonAnimationArea
-      #   {cc, size} = rect @buttonAnimationArea
-      #   Element
-      #     key: :buttonAnimationArea
-      #     size: size
-      #     location: cc
-      #     compositeMode: :add
-      #     axis: .5
-      #     opacity: .05
-      #     scale: 2
-      #     draw:
-      #       color: #fff7
-
-      #     animators:
-      #       scale:
-      #         duration: 1
-      #         from: 1
-      #       opacity:
-      #         duration: 1
-      #         from: 1
-      #         on: done: @models.navState.clearButtonAnimationArea
 

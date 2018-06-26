@@ -12,11 +12,13 @@ class Button extends PointerActionsMixin FluxComponent
 
   scaleFit = (ps, cs) -> min 1, ps.minRatio cs
   render: ->
-    {icon, disabled, beforeText, color = #444, text, delay, hidden, width = 1, height = 1} = @props
+    {icon, angle, size, disabled, x, y, beforeText, color = #444, text, delay, hidden, width = 1, height = 1} = @props
     {padding, gridSize} = Style
     c = unless color is Array
       rgbColor color
     txtColor = getContrastingTextColor c
+
+    disabled = true unless @props.action
 
     Element
       on: @buttonHandlers
@@ -26,7 +28,11 @@ class Button extends PointerActionsMixin FluxComponent
       clip: true
       opacity: if disabled then .5 else 1
 
-      size:
+      location: if x? || y?
+        x: (x ? 0) * gridSize
+        y: (y ? 0) * gridSize
+
+      size: size ?
         h: height * gridSize
         w: width * gridSize
 
@@ -44,7 +50,7 @@ class Button extends PointerActionsMixin FluxComponent
             delay
 
         draw:
-          :padded
+          # :padded
           fill:
             color: color
             to: :bottomRight
@@ -53,50 +59,56 @@ class Button extends PointerActionsMixin FluxComponent
           animators: opacity: toFrom: 0
           draw: #fff7
 
-        Element
-          key:      :content
-          size:     :parentHeightChildrenWidth
-          location: :centerCenter
-          childrenLayout: :row
-          axis:     .5
-          scale: scaleFit
-          if beforeText
-            Element
-              margin:   gridSize /2
-              key:      :beforeText
-              size:     :parentHeightChildrenWidth
-              animators:
-                size: toFrom: w:0
-                margin: toFrom: 0
-              clip: true
+        if icon
+          TextElement
+            key:      :icon
+            size:     :childrenSize
+            location: :centerCenter
+            axis:     :centerCenter
+            color:    txtColor
+            animators:
+              color: true
+              opacity: toFrom: 0
+              # angle: true
 
-              TextElement
+            # angle:  angle
+            Icons[icon]
+
+        else
+          Element
+            key:      :content
+            size:     :parentHeightChildrenWidth
+            location: :centerCenter
+            childrenLayout: :row
+            axis:     .5
+            scale: scaleFit
+            if beforeText
+              Element
+                margin:   gridSize /2
+                key:      :beforeText
                 size:     :parentHeightChildrenWidth
-                align:    .5
+                animators:
+                  size: toFrom: w:0
+                  margin: toFrom: 0
+                clip: true
+
+                TextElement
+                  size:     :parentHeightChildrenWidth
+                  align:    .5
+                  color:    txtColor
+                  Style.heavyText
+                  upperCase beforeText
+
+
+            if present text
+              TextElement
+                key:      :mainText
+                size:     :parentHeightChildrenWidth
                 color:    txtColor
+                animators:
+                  color: true
+                  opacity: toFrom: 0
+
+                align:    .5
                 Style.heavyText
-                upperCase beforeText
-
-          if icon
-            TextElement
-              key:      :icon
-              size:     :parentHeightChildrenWidth
-              color:    txtColor
-              animators:
-                color: true
-                opacity: toFrom: 0
-
-              align:    .5
-              Icons[icon]
-          else if present text
-            TextElement
-              key:      :mainText
-              size:     :parentHeightChildrenWidth
-              color:    txtColor
-              animators:
-                color: true
-                opacity: toFrom: 0
-
-              align:    .5
-              Style.heavyText
-              upperCase text
+                upperCase text
