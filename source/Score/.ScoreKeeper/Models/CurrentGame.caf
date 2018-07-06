@@ -1,6 +1,7 @@
 import &StandardImport
 
 class CurrentGame extends ApplicationState
+  @persistant()
 
   @stateFields
     players: {}
