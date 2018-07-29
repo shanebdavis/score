@@ -8,6 +8,7 @@ module.exports
   Button:        require './Button'       
   ColorPicker:   require './ColorPicker'  
   ConfirmDelete: require './ConfirmDelete'
+  GamesView:     require './GamesView'    
   History:       require './History'      
   Keyboard:      require './Keyboard'     
   Label:         require './Label'        

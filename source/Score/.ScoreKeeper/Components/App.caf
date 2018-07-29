@@ -1,10 +1,10 @@
 import &StandardImport
 
 class App extends FluxComponent
-  @subscriptions :navState.navState
+  @subscriptions :navState.navState, :currentGame.currentGame
 
-  @stateFields
-    page: 0
+  @getter page: -> @navState.page
+  @setter page: (v) -> @models.navState.setPage v
 
   render: ->
     {gridSize, margin} = Style
@@ -32,7 +32,7 @@ class App extends FluxComponent
             height: 6
             icon: :chevronLeft
             hidden: showKeyboard
-            action: if @page > 0 then -> @page--
+            action: @models.navState.backAction
 
           Element
             size: w: gridSize * 8
@@ -53,7 +53,7 @@ class App extends FluxComponent
 
               Element
                 size: w: gridSize * 8
-                &Label "Games"
+                &GamesView()
 
               Element
                 size: w: gridSize * 8
@@ -67,7 +67,7 @@ class App extends FluxComponent
             height: 6
             icon: :chevronRight
             hidden: showKeyboard
-            action: if @page < 3 then -> @page++
+            action: @models.navState.forwardAction
 
         if showKeyboard
           &PlayerEditor playerId: @navState.editPlayerId

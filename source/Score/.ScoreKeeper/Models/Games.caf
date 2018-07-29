@@ -1,0 +1,22 @@
+import &StandardImport
+
+class Games extends ApplicationState
+  @persistant()
+
+  selectGame: (id) ->
+    if game = @state[id]
+      @models.currentGame.replaceState game
+
+  saveCurrentGame: ->
+    if (currentGame = @models.currentGame.state) extract id
+      log saveCurrentGame: {id, currentGame}
+      @setState id, cloneStructure currentGame
+
+  createGame: ->
+    @setState
+      id = cryptoRandomString()
+      {}
+        id
+        createdAt: toSeconds()
+        players: {}
+        history: []

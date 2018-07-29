@@ -1,0 +1,33 @@
+import &StandardImport
+
+class GamesView extends FluxComponent
+  @subscriptions :games.games
+
+  newGame: ->
+    @selectGame @models.games.createGame()
+
+  selectGame: (id) ->
+    if @models.games.selectGame id
+      @models.navState.showCurrentGame()
+
+  render: ->
+    Element
+      childrenLayout: :column
+      clip: true
+      cacheDraw: true
+      &Label "Games"
+
+      ScrollElement
+        clip: true
+        array game in @games
+          &Button
+            key: game.id
+            width: 8
+            action: -> @selectGame game.id
+            text: "#{game.id}"
+
+      &Button
+        width: 8
+        action: @newGame
+        icon: :+
+        text: :game

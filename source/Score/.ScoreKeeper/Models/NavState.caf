@@ -4,3 +4,24 @@ class NavState extends ApplicationState
   @stateFields
     buttonAnimationArea: null
     editPlayerId: null
+    page: 0
+
+  showCurrentGame: ->
+    @page = 2
+
+  back: ->
+    if @page == 2
+      @models.games.saveCurrentGame()
+    @page = max 0, @page - 1
+
+  forward: ->
+    @page = min 3, @page + 1
+
+  @getter
+    backAction: -> @back if @page > 0
+
+    forwardAction: ->
+      if switch @page
+          when 0, 2 then true
+          when 1 then !!@currentGame?.id
+        @forward

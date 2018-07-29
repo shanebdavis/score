@@ -19,6 +19,7 @@ class History extends FluxComponent
           score = playerScores[playerId] = (playerScores[playerId] ? 0) + add
           &PlayerScore2
             key: playerId
+            disablePlayerEdit: true
             player: objectWith players[playerId], :score, score
             time: createdAt
             add: (__, amount) ->

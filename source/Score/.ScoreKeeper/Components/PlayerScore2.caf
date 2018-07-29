@@ -8,7 +8,8 @@ class PlayerScore extends FluxComponent
     time: null
 
   edit: ->
-    @models.navState.editPlayerId = @player.id
+    unless @props.disablePlayerEdit
+      @models.navState.editPlayerId = @player.id
 
   constructor: ->
     @timer = new ReschedulableTimer

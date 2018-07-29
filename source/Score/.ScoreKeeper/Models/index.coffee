@@ -5,4 +5,5 @@ module.exports = require './namespace'
 module.exports
 .addModules
   CurrentGame: require './CurrentGame'
+  Games:       require './Games'      
   NavState:    require './NavState'   

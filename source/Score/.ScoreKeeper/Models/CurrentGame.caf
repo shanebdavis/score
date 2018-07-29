@@ -5,7 +5,6 @@ class CurrentGame extends ApplicationState
 
   @stateFields
     players: {}
-    nextId: 2
     history: []
 
   @getter
@@ -14,16 +13,23 @@ class CurrentGame extends ApplicationState
         c = rgbColor c
         !find {color} in @players when rgbColor(color).eq c
 
+  normalizeProps = (props) ->
+    {color} = props
+    if color && !isString color
+      merge props, color: color.toString()
+    else
+      props
+
   updatePlayer: (playerId, props) ->
-    @players = merge @players, [playerId]: merge @players[playerId], props
+    @players = merge @players, [playerId]: merge @players[playerId], normalizeProps props
 
   deletePlayer: (playerId) ->
     @players = objectWithout @players, "#{playerId}"
 
   newPlayer: (initialProps)->
     @updatePlayer
-      id =    @nextId++
-      merge
+      id = cryptoRandomString()
+      normalizeProps merge
         id:     id
         color:  #fdff33
         score:  0
@@ -34,7 +40,7 @@ class CurrentGame extends ApplicationState
     id
 
   pushHistory: (playerId, props) ->
-    @history = arrayWith @history, log merge {playerId, createdAt: toSeconds(), add: 0}, props
+    @history = arrayWith @history, log merge {playerId, createdAt: toSeconds(), add: 0}, normalizeProps props
 
   addHistory: (historyEntry, amount) ->
     amount ?= 1

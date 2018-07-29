@@ -22,7 +22,7 @@ class ScoreView extends FluxComponent
       animators: :axis
       cacheDraw: true
 
-      &Label "Current Game"
+      &Label "Players"
 
       ScrollElement
         clip: true
