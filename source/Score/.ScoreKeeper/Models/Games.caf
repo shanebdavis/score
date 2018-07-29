@@ -9,7 +9,6 @@ class Games extends ApplicationState
 
   saveCurrentGame: ->
     if (currentGame = @models.currentGame.state) extract id
-      log saveCurrentGame: {id, currentGame}
       @setState id, cloneStructure currentGame
 
   createGame: ->

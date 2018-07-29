@@ -1,6 +1,6 @@
 import &StandardImport
 
-class GamesView extends FluxComponent
+class Games extends FluxComponent
   @subscriptions :games.games
 
   newGame: ->

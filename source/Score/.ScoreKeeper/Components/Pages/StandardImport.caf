@@ -1,0 +1,2 @@
+i = &StandardImport
+.merge i, &Partials

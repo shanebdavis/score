@@ -40,7 +40,7 @@ class CurrentGame extends ApplicationState
     id
 
   pushHistory: (playerId, props) ->
-    @history = arrayWith @history, log merge {playerId, createdAt: toSeconds(), add: 0}, normalizeProps props
+    @history = arrayWith @history, merge {playerId, createdAt: toSeconds(), add: 0}, normalizeProps props
 
   addHistory: (historyEntry, amount) ->
     amount ?= 1

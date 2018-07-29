@@ -1,6 +1,6 @@
 import &StandardImport, {} &Button
 
-class History extends FluxComponent
+class GameHistory extends FluxComponent
   @subscriptions :currentGame.history :currentGame.players
 
   render: ->
@@ -17,7 +17,7 @@ class History extends FluxComponent
 
         array {playerId, add = 0, createdAt}, i in @history
           score = playerScores[playerId] = (playerScores[playerId] ? 0) + add
-          &PlayerScore2
+          PlayerScoreLine
             key: playerId
             disablePlayerEdit: true
             player: objectWith players[playerId], :score, score

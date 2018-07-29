@@ -1,4 +1,4 @@
-import &StandardImport
+import &StandardImport, &Pages
 
 class App extends FluxComponent
   @subscriptions :navState.navState, :currentGame.currentGame
@@ -53,15 +53,15 @@ class App extends FluxComponent
 
               Element
                 size: w: gridSize * 8
-                &GamesView()
+                Games()
 
               Element
                 size: w: gridSize * 8
-                &ScoreView hidden: showKeyboard
+                CurrentGame hidden: showKeyboard
 
               Element
                 size: w: gridSize * 8
-                &History()
+                GameHistory()
 
           &Button
             height: 6

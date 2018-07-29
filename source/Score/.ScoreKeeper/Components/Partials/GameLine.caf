@@ -1,0 +1,17 @@
+import &StandardImport
+
+class GameLine extends FluxComponent
+  render: ->
+    {gridSize, padding} = Style
+    {name, score, color} = @player
+    textColor = getContrastingTextColor color
+    Element
+      clip: true
+      location: {@props.y}
+      animators: :location
+
+      size: h: gridSize
+      on: @state.handlers
+      cursor: :pointer
+      padding: padding
+      draw: color

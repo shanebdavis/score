@@ -1,6 +1,6 @@
 import &StandardImport
 
-class ScoreView extends FluxComponent
+class CurrentGame extends FluxComponent
   @subscriptions :currentGame.players
 
   newPlayer: ->
@@ -29,7 +29,7 @@ class ScoreView extends FluxComponent
         Element
           size: :parentWidthChildrenHeight
           array player, i in sortedPlayers
-            &PlayerScore2 {} player, key: player.id, y: gridSize * i
+            PlayerScoreLine {} player, key: player.id, y: gridSize * i
 
           Element
             cacheDraw: true
@@ -41,4 +41,3 @@ class ScoreView extends FluxComponent
               width: 8
               action: @newPlayer
               icon: :+
-
