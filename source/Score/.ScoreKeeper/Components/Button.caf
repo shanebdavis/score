@@ -8,7 +8,6 @@ class Button extends PointerActionsMixin FluxComponent
       el = target
       while el && el.key != :appRoot
         el = el.parent
-      @models.navState.buttonAnimationArea = target.getElementToElementMatrix(el).transformBoundingRect target.paddedArea
 
   scaleFit = (ps, cs) -> min 1, ps.minRatio cs
   render: ->
@@ -98,7 +97,6 @@ class Button extends PointerActionsMixin FluxComponent
                   color:    txtColor
                   Style.heavyText
                   upperCase beforeText
-
 
             if present text
               TextElement

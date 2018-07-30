@@ -2,7 +2,6 @@ import &StandardImport
 
 class NavState extends ApplicationState
   @stateFields
-    buttonAnimationArea: null
     editPlayerId: null
     page: 0
 
@@ -10,9 +9,12 @@ class NavState extends ApplicationState
     @page = 2
 
   back: ->
-    if @page == 2
-      @models.games.saveCurrentGame()
-    @page = max 0, @page - 1
+    if @editPlayerId?
+      @editPlayerId=null
+    else
+      if @page == 2
+        @models.games.saveCurrentGame()
+      @page = max 0, @page - 1
 
   forward: ->
     @page = min 3, @page + 1

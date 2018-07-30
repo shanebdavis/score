@@ -1,17 +1,41 @@
 import &StandardImport
 
 class GameLine extends FluxComponent
+  @subscriptions
+    ageString: (props) -> props.game.createdAt
+
   render: ->
     {gridSize, padding} = Style
-    {name, score, color} = @player
-    textColor = getContrastingTextColor color
-    Element
-      clip: true
-      location: {@props.y}
-      animators: :location
+    {game, action, width} = @props
 
-      size: h: gridSize
-      on: @state.handlers
-      cursor: :pointer
-      padding: padding
-      draw: color
+    textColor = getContrastingTextColor()
+
+    ButtonWrapper
+      {} width, action
+      Element
+        padding: 20
+
+        TextElement
+          Style.heavyText
+          align:    0
+          color:    textColor
+          game.name ? "Carcassone"
+
+        Element
+          childrenLayout: :row
+          childrenAlignment: :bottom
+          childrenMargins: Style.tinyText.fontSize
+          array player in Object.values(game.players ? {}).sort (a, b) -> b.score - a.score
+            TextElement
+              Style.tinyText
+              size: :childrenSize
+              color: player.color
+              "" #{player.name}: #{player.score}
+
+          Element()
+
+          TextElement
+            Style.tinyText
+            size: :childrenSize
+            color: textColor
+            @ageString

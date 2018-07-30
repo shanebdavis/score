@@ -6,3 +6,4 @@ module.exports
 .addModules
   GameLine:        require './GameLine'       
   PlayerScoreLine: require './PlayerScoreLine'
+  StandardImport:  require './StandardImport' 

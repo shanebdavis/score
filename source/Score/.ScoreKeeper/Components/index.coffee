@@ -13,3 +13,4 @@ module.exports
   PlayerEditor:  require './PlayerEditor' 
 require './Pages'
 require './Partials'
+require './Widgets'

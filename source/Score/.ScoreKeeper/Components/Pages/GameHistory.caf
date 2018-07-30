@@ -18,7 +18,7 @@ class GameHistory extends FluxComponent
         array {playerId, add = 0, createdAt}, i in @history
           score = playerScores[playerId] = (playerScores[playerId] ? 0) + add
           PlayerScoreLine
-            key: playerId
+            key: "history entry #{i}"
             disablePlayerEdit: true
             player: objectWith players[playerId], :score, score
             time: createdAt

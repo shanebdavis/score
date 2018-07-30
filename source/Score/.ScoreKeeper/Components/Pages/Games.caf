@@ -20,11 +20,11 @@ class Games extends FluxComponent
       ScrollElement
         clip: true
         array game in @games
-          &Button
+          GameLine {}
+            game
             key: game.id
             width: 8
             action: -> @selectGame game.id
-            text: "#{game.id}"
 
       &Button
         width: 8

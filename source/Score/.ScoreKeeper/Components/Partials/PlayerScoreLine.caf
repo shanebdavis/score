@@ -79,12 +79,21 @@ class PlayerScore extends FluxComponent
       padding: padding
       draw: color
 
-      TextElement
-        Style.heavyText
-        padding: h: gridSize / 4
-        size:     :parentHeightChildrenWidth
-        color:    textColor
-        upperCase name
+      Element
+        size: w:  gridSize * 4
+        clip: true
+        padding:
+          left:   gridSize / 4
+          right:  gridSize / 2
+
+        TextElement
+          Style.heavyText
+          axis:     :centerLeft
+          location: :centerLeft
+          scale:    (ps, cs) -> min 1, ps.minRatio cs
+          size:     :childrenSize
+          color:    textColor
+          upperCase name
 
       Element
         size:
@@ -107,7 +116,7 @@ class PlayerScore extends FluxComponent
               0
               gridSize / 8
               gridSize / 2
-            fill: #0004
+            fill: rgbColor(getContrastingTextColor color).withAlpha .25
 
       Element
         size:     :childrenSize
@@ -136,6 +145,7 @@ class PlayerScore extends FluxComponent
           text:
             score
             + @amount ? 0
+
       if @time
         TextElement
           Style.tinyText
@@ -144,4 +154,4 @@ class PlayerScore extends FluxComponent
           location: :bottomRight
           size: :childrenSize
           text: formatDate toDate(@time), "h:MMtt"
-          padding: bottom: 20, right: 5
+          padding: bottom: 20, right: 20

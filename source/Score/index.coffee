@@ -10,4 +10,3 @@ module.exports
   StyleProps:     require './StyleProps'    
   TextPalette:    require './TextPalette'   
   TextStyles:     require './TextStyles'    
-require './Widgets'

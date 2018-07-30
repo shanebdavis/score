@@ -1,13 +1,13 @@
 import &StandardImport
 
 class CurrentGame extends FluxComponent
-  @subscriptions :currentGame.players
+  @subscriptions :currentGame.currentGame
 
   newPlayer: ->
     @models.navState.editPlayerId = :new
 
   @getter
-    sortedPlayers: -> (array @players).sort (a, b) -> b.score - a.score
+    sortedPlayers: -> (array @currentGame.players).sort (a, b) -> b.score - a.score
 
   render: ->
     {gridSize, margin} = Style
@@ -22,10 +22,11 @@ class CurrentGame extends FluxComponent
       animators: :axis
       cacheDraw: true
 
-      &Label "Players"
 
       ScrollElement
         clip: true
+        GameLine width: 8, game: @currentGame
+        &Label "Players"
         Element
           size: :parentWidthChildrenHeight
           array player, i in sortedPlayers

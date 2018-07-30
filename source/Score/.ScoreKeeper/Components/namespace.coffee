@@ -3,4 +3,5 @@
 
 module.exports = (require '../namespace').addNamespace('Components', class Components extends Neptune.PackageNamespace)
 require './Pages/namespace';
-require './Partials/namespace'
+require './Partials/namespace';
+require './Widgets/namespace'

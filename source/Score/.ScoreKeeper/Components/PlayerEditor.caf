@@ -1,7 +1,7 @@
 import &StandardImport
 
 class PlayerEditor extends FluxComponent
-  @subscriptions :navState.navState
+  @subscriptions :navState.navState, :currentGame.players
 
   @propFields
     playerId: null
@@ -62,7 +62,8 @@ class PlayerEditor extends FluxComponent
       Element
         size: h: gridSize
         childrenLayout: :row
-        &Button {} color, width: 2,                            hidden: confirmDelete, icon: :-, action: @toggleConfirmDeletePlayer
+        &Button {} color, width: 1,                            hidden: confirmDelete, icon: :<, action: @models.navState.back
+        &Button {} color, width: 1,                            hidden: confirmDelete, icon: :-, action: @toggleConfirmDeletePlayer
         &Button {}
           color
           width: 6
