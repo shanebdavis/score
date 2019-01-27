@@ -8,29 +8,27 @@ class Keyboard extends FluxComponent
   backspace: ->
     @props.valueChanged @value.slice 0, @value.length - 1
 
-  typeAction: (__,  props) ->
-    {text}=props
-    @props.valueChanged @value + text
+  typeAction: (__, props) ->
+    @props.valueChanged @value + props.text
 
   render: ->
     {gridSize, margin} = Style
-    {color = #fe8922, hidden} = @props
+    @props extract color = #fe8922, hidden
     delay = animationDelay
     Element
-      childrenLayout: :flow
+      :flow
       size: h: gridSize * 3
 
-      array c, i in :qwertyuiop with &Button {} hidden, color, delay: delay * i,        text: c, action: @typeAction
-      array c, i in :asdfghjkl  with &Button {} hidden, color, delay: delay * (i + 1),  text: c, action: @typeAction
+      array c, i from-array :qwertyuiop with &Button {} hidden, color, delay: delay * i,        text: c, action: @typeAction
+      array c, i from-array :asdfghjkl  with &Button {} hidden, color, delay: delay * (i + 1),  text: c, action: @typeAction
       Element size: gridSize
-      array c, i in :zxcvbnm    with &Button {} hidden, color, delay: delay * (i + 2),  text: c, action: @typeAction
+      array c, i from-array :zxcvbnm    with &Button {} hidden, color, delay: delay * (i + 2),  text: c, action: @typeAction
 
       &Button {} color, hidden, width: 2, delay: delay * 9, text: " ", action: @typeAction
       Element
         inFlow: false
-        location: ps: 1
-        axis: 1
-        size: :childrenSize
+        :bottomRight
+        :childrenSize
         &Button {}
           color
           hidden

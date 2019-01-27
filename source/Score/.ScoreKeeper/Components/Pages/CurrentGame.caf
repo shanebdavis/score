@@ -22,13 +22,13 @@ class CurrentGame extends FluxComponent
       animators: :axis
       cacheDraw: true
 
-
       ScrollElement
         clip: true
         GameLine width: 8, game: @currentGame
-        &Label "Players"
+        &Label text: "Players"
         Element
-          size: :parentWidthChildrenHeight
+          key: @props.currentGameId
+          :parentWidthChildrenHeight
           array player, i in sortedPlayers
             PlayerScoreLine {} player, key: player.id, y: gridSize * i
 

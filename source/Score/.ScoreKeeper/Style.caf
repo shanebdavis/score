@@ -53,7 +53,11 @@ class Style extends HotStyleProps
       circleO:            "\ue90f"
       circle:             "\ue91e"
 
-    {} fontFamily: "icomoon", layoutMode: "tight", fontSize, text
+    {}
+      fontFamily: "icomoon"
+      layoutMode: "tight"
+      fontSize
+      text
 
   @white: rgbColor :white
 

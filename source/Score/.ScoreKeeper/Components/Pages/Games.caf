@@ -15,7 +15,7 @@ class Games extends FluxComponent
       childrenLayout: :column
       clip: true
       cacheDraw: true
-      &Label "Games"
+      &Label text: "Games"
 
       ScrollElement
         clip: true

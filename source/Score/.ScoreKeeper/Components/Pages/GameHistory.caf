@@ -10,7 +10,7 @@ class GameHistory extends FluxComponent
 
     Element
       childrenLayout: :column
-      &Label "History"
+      &Label text: :History
 
       ScrollElement
         clip: true

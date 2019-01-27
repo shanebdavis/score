@@ -109,4 +109,4 @@ class Button extends PointerActionsMixin FluxComponent
 
                 align:    .5
                 Style.heavyText
-                upperCase text
+                text: upperCase text

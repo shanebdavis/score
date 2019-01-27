@@ -93,7 +93,7 @@ class PlayerScore extends FluxComponent
           scale:    (ps, cs) -> min 1, ps.minRatio cs
           size:     :childrenSize
           color:    textColor
-          upperCase name
+          text:     upperCase name
 
       Element
         size:

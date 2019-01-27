@@ -17,25 +17,25 @@ class GameLine extends FluxComponent
 
         TextElement
           Style.heavyText
-          align:    0
-          color:    textColor
-          game.name ? "Carcassone"
+          align:  0
+          color:  textColor
+          text:   game.name ? "Carcassone"
 
         Element
-          childrenLayout: :row
-          childrenAlignment: :bottom
+          :row
+          :childrenBottomLeft
           childrenMargins: Style.tinyText.fontSize
           array player in Object.values(game.players ? {}).sort (a, b) -> b.score - a.score
             TextElement
               Style.tinyText
-              size: :childrenSize
-              color: player.color
-              "" #{player.name}: #{player.score}
+              :childrenSize
+              color:  player.color
+              text:   "" #{player.name}: #{player.score}
 
           Element()
 
           TextElement
             Style.tinyText
-            size: :childrenSize
-            color: textColor
-            @ageString
+            :childrenSize
+            color:  textColor
+            text:   @ageString
