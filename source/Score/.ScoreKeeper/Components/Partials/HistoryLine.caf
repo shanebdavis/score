@@ -1,0 +1,7 @@
+import &StandardImport
+
+class HistoryLine extends FluxComponent
+
+  render: ->
+    Element
+      size: ww:1, h:10

@@ -27,3 +27,5 @@ Launch: https://shanebdavis.github.io/score/
 * edit game name -w- autocomplete
 * auto-complete player name from previous player names
 * auto-delete 100% empty games after going back to home
+* other score-lines should be disabled while changing the score on another
+* new players should have an unused color
