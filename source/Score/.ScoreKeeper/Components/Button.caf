@@ -83,7 +83,7 @@ class Button extends PointerActionsMixin FluxComponent
             scale: scaleFit
             if beforeText
               Element
-                margin:   gridSize /2
+                margin:   gridSize / 2
                 key:      :beforeText
                 size:     :parentHeightChildrenWidth
                 animators:

@@ -5,5 +5,6 @@ module.exports = require './namespace'
 module.exports
 .addModules
   GameLine:        require './GameLine'       
+  HistoryLine:     require './HistoryLine'    
   PlayerScoreLine: require './PlayerScoreLine'
   StandardImport:  require './StandardImport' 

@@ -13,11 +13,10 @@ class App extends FluxComponent
     showKeyboard = !!@navState.editPlayerId
     Element
       draw: :black
-      key: "appRoot"
+      key:  :appRoot
 
       Element
-        location: :centerCenter
-        axis: .5
+        :centerCenter
 
         size:
           w: gridSize * 10
@@ -39,16 +38,16 @@ class App extends FluxComponent
             clip: true
 
             Element
-              size: w: gridSize * 8 * 4
-              location: x: -gridSize * 8 * page
-              animators: :location
-              childrenLayout: :row
+              size:       w: gridSize * 8 * 4
+              location:   x: -gridSize * 8 * page
+              animators:  :location
+              :row
 
               Element
                 size: w: gridSize * 8, h: gridSize * 6
                 TextElement
                   Style.heavyText
-                  text: "Rock, paper\nScore!"
+                  text: "Score!"
                   color: TextPalette.white.primary
 
               Element
@@ -65,7 +64,7 @@ class App extends FluxComponent
 
           &Button
             height: 6
-            icon: :chevronRight
+            icon:   :chevronRight
             hidden: showKeyboard
             action: @models.navState.forwardAction
 
